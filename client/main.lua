@@ -100,7 +100,7 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                             if dist < 5 then
                                 local npccoords = GetEntityCoords(NpcData.Npc)
                                 DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, '[E] NPC oproepen')
-                                if IsControlJustPressed(0, Keys["E"]) then
+                                if IsControlJustPressed(0, 38) then
                                     local veh = GetVehiclePedIsIn(ped, 0)
                                     local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
 
@@ -180,7 +180,7 @@ function GetDeliveryLocation()
                 if dist < 5 then
                     local npccoords = GetEntityCoords(NpcData.Npc)
                     DrawText3D(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, '[E] Drop Off NPC')
-                    if IsControlJustPressed(0, Keys["E"]) then
+                    if IsControlJustPressed(0, 38) then
                         local veh = GetVehiclePedIsIn(ped, 0)
                         TaskLeaveVehicle(NpcData.Npc, veh, 0)
                         SetEntityAsMissionEntity(NpcData.Npc, false, true)
@@ -294,14 +294,14 @@ Citizen.CreateThread(function()
                         if vehDist < 1.5 then
                             if whitelistedVehicle() then
                                 DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Vehicle Parking')
-                                if IsControlJustReleased(0, Keys["E"]) then
+                                if IsControlJustReleased(0, 38) then
                                     if IsPedInAnyVehicle(PlayerPedId(), false) then
                                         DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                     end
                                 end
                             else
                                 DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Vehicle Suits')
-                                if IsControlJustReleased(0, Keys["E"]) then
+                                if IsControlJustReleased(0, 38) then
                                     TaxiGarage()
                                     Menu.hidden = not Menu.hidden
                                 end
