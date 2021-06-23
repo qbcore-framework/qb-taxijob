@@ -1,12 +1,9 @@
 QBCore = nil
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-        if QBCore == nil then
-            TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-            Citizen.Wait(200)
-        end
+    while QBCore == nil do
+    	TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+    	Citizen.Wait(200)
     end
 end)
 
@@ -73,7 +70,7 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                 while not HasModelLoaded(model) do
                     Citizen.Wait(0)
                 end
-                NpcData.Npc = CreatePed(3, model, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z - 0.98, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].h, false, true)
+                NpcData.Npc = CreatePed(3, model, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z - 0.98, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].w, false, true)
                 PlaceObjectOnGroundProperly(NpcData.Npc)
                 FreezeEntityPosition(NpcData.Npc, true)
                 if NpcData.NpcBlip ~= nil then
