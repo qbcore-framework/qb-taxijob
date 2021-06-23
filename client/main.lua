@@ -96,7 +96,7 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                         
                             if dist < 5 then
                                 local npccoords = GetEntityCoords(NpcData.Npc)
-                                DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, '[E] NPC oproepen')
+                                DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, '[E] Call NPC')
                                 if IsControlJustPressed(0, 38) then
                                     local veh = GetVehiclePedIsIn(ped, 0)
                                     local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
@@ -297,7 +297,7 @@ Citizen.CreateThread(function()
                                     end
                                 end
                             else
-                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Vehicle Suits')
+                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Job Vehicles')
                                 if IsControlJustReleased(0, 38) then
                                     TaxiGarage()
                                     Menu.hidden = not Menu.hidden
@@ -342,7 +342,7 @@ AddEventHandler('qb-taxi:client:toggleMeter', function()
             QBCore.Functions.Notify('This Vehicle Has No Taxi Meter', 'error')
         end
     else
-        QBCore.Functions.Notify('Youre Not In A Vehicle ', 'error')
+        QBCore.Functions.Notify('You\'re Not In A Vehicle ', 'error')
     end
 end)
 
