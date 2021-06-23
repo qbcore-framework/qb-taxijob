@@ -8,11 +8,7 @@ Config.Meter = {
     ["defaultPrice"] = 1.60
 }
 
-Config.Locations = {
-    ["vehicle"] = {
-      vector4(909.5, -177.35, 74.22, 238.5),
-    }
-}
+Config.Location = vector3(909.5, -177.35, 74.22)
 
 Config.NPCLocations = {
     TakeLocations = {
