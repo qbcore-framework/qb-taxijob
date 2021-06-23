@@ -2,9 +2,6 @@ Config = Config or {}
 
 Config.AllowedVehicles = {
    [1] = {model = "taxi", label = "Standard Cab"},
-   [2] = {model = "priustaxi", label = "Electric Cab"},
-   [3] = {model = "taxiesperanto", label = "Esperanto Cab"},   
-   [4] = {model = "Stretch", label = "Stretch Limousine"},
 }
 
 Config.Meter = {
