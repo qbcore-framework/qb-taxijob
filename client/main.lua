@@ -281,7 +281,7 @@ Citizen.CreateThread(function()
                     local ped = PlayerPedId()
                     local pos = GetEntityCoords(ped)
 
-                    local vehDist = #(pos - Config.Location)
+                    local vehDist = #(pos - vector3(Config.Location.x, Config.Location.y, Config.Location.z))
 
                     if vehDist < 30 then
                         inRange = true
@@ -426,7 +426,7 @@ function VehicleList()
 end
 
 function TakeVehicle(k)
-    local coords = {x = Config.Location.x, y = Config.Location.y, z = Config.Location.z}
+    local coords = vector3(Config.Location.x, Config.Location.y, Config.Location.z)
     QBCore.Functions.SpawnVehicle(Config.AllowedVehicles[k].model, function(veh)
         SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
         SetEntityHeading(veh, Config.Location.w)
