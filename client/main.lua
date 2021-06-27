@@ -426,10 +426,9 @@ function VehicleList()
 end
 
 function TakeVehicle(k)
-    local coords = vector3(Config.Location.x, Config.Location.y, Config.Location.z)
+    local coords = Config.Location
     QBCore.Functions.SpawnVehicle(Config.AllowedVehicles[k].model, function(veh)
         SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
-        SetEntityHeading(veh, Config.Location.w)
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         closeMenuFull()
         TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
