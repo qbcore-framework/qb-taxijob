@@ -1,8 +1,3 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-
--- Code
-
 RegisterServerEvent('qb-taxi:server:NpcPay')
 AddEventHandler('qb-taxi:server:NpcPay', function(Payment)
     local fooikansasah = math.random(1, 5)
