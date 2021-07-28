@@ -108,7 +108,6 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                                     SendNUIMessage({
                                         action = "toggleMeter"
                                     })
-
                                     ClearPedTasksImmediately(NpcData.Npc)
                                     FreezeEntityPosition(NpcData.Npc, false)
                                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
@@ -177,6 +176,10 @@ function GetDeliveryLocation()
                             action = "toggleMeter"
                         })
                         TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
+                        meterActive = false
+                        SendNUIMessage({
+                            action = "resetMeter"
+                        })
                         QBCore.Functions.Notify('Person Was Dropped Off', 'success')
                         if NpcData.DeliveryBlip ~= nil then
                             RemoveBlip(NpcData.DeliveryBlip)
