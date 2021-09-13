@@ -315,8 +315,8 @@ AddEventHandler('qb-taxi:client:toggleMeter', function()
     local ped = PlayerPedId()
     
     if IsPedInAnyVehicle(ped, false) then
-        if whitelistedVehicle() then
-            if not meterIsOpen then
+        if whitelistedVehicle() then 
+            if not meterIsOpen and IsDriver() then
                 SendNUIMessage({
                     action = "openMeter",
                     toggle = true,
@@ -396,6 +396,10 @@ function whitelistedVehicle()
     end
     
     return retval
+end
+
+function IsDriver()
+    return GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId()
 end
 
 function TaxiGarage()
