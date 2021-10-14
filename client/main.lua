@@ -15,6 +15,7 @@ local meterData = {
 }
 
 local dutyPlate = nil
+local onDuty = false
 
 local NpcData = {
     Active = false,
@@ -40,8 +41,7 @@ function TimeoutNpc()
     end)
 end
 
-RegisterNetEvent('qb-taxi:client:DoTaxiNpc')
-AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
+RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
     if whitelistedVehicle() then
        -- if NpcData.CountDown == 180 then
             if not NpcData.Active then
@@ -217,20 +217,22 @@ function ResetNpcTask()
     }
 end
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     isLoggedIn = true
     PlayerData = QBCore.Functions.GetPlayerData()
+    onDuty = PlayerData.job.onduty
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload')
-AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     isLoggedIn = false
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate')
-AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
+    if PlayerData.job.onduty then
+        TriggerServerEvent("QBCore:ToggleDuty")
+        onDuty = false
+    end
 end)
 
 Citizen.CreateThread(function()
@@ -263,55 +265,59 @@ end
 
 Citizen.CreateThread(function()
     while true do
-
-        inRange = false
-
-        if QBCore ~= nil then
-            if isLoggedIn then
-
-                if PlayerData.job.name == "taxi" then
-                    local ped = PlayerPedId()
-                    local pos = GetEntityCoords(ped)
-
-                    local vehDist = #(pos - vector3(Config.Location.x, Config.Location.y, Config.Location.z))
-
-                    if vehDist < 30 then
-                        inRange = true
-
-                        DrawMarker(2, Config.Location.x, Config.Location.y, Config.Location.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
-
-                        if vehDist < 1.5 then
-                            if whitelistedVehicle() then
-                                DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Vehicle Parking')
-                                if IsControlJustReleased(0, 38) then
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
-                                    end
-                                end
-                            else
-                                DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Job Vehicles')
-                                if IsControlJustReleased(0, 38) then
-                                    TaxiGarage()
-                                    Menu.hidden = not Menu.hidden
-                                end
-                            end
-                            Menu.renderGUI()
+        sleep = 2000
+        if isLoggedIn and PlayerData.job.name == "taxi" then
+            local pos = GetEntityCoords(PlayerPedId())
+            for k, v in pairs(Config.Locations["duty"]) do
+                if #(pos - v) < 5 then
+                    DrawMarker(2, v.x, v.y, v.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
+                    sleep = 5
+                    if #(pos - v) < 1.5 then
+                        if not onDuty then
+                            DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Go on duty")
+                        else
+                            DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Go off duty")
+                        end
+                        if IsControlJustReleased(0, 38) then
+                            onDuty = not onDuty
+                            TriggerServerEvent("QBCore:ToggleDuty")
                         end
                     end
                 end
             end
+            for k, v in pairs(Config.Locations["vehicle"]) do
+                if #(pos - v) < 15 then
+                    DrawMarker(2, v.x, v.y, v.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
+                    sleep = 5
+                    if #(pos - v) < 1.5 then
+                        if whitelistedVehicle() then
+                            DrawText3D(v.x, v.y, v.z + 0.3, '[E] Vehicle Parking')
+                            if IsControlJustReleased(0, 38) then
+                                if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                    DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                                end
+                            end
+                        else
+                            DrawText3D(v.x, v.y, v.z + 0.3, '[E] Job Vehicles')
+                            if IsControlJustReleased(0, 38) then
+                                if onDuty then 
+                                    TaxiGarage()
+                                    Menu.hidden = not Menu.hidden
+                                else
+                                    QBCore.Functions.Notify('You are not on duty', 'error')
+                                end
+                            end
+                        end
+                        Menu.renderGUI()                                                            
+                    end
+                end
+            end
         end
-
-        if not inRange then
-            Citizen.Wait(3000)
-        end
-
-        Citizen.Wait(3)
+        Wait(sleep)
     end
 end)
-
-RegisterNetEvent('qb-taxi:client:toggleMeter')
-AddEventHandler('qb-taxi:client:toggleMeter', function()
+            
+RegisterNetEvent('qb-taxi:client:toggleMeter', function()
     local ped = PlayerPedId()
     
     if IsPedInAnyVehicle(ped, false) then
@@ -338,8 +344,7 @@ AddEventHandler('qb-taxi:client:toggleMeter', function()
     end
 end)
 
-RegisterNetEvent('qb-taxi:client:enableMeter')
-AddEventHandler('qb-taxi:client:enableMeter', function()
+RegisterNetEvent('qb-taxi:client:enableMeter', function()
     local ped = PlayerPedId()
 
     if meterIsOpen then
@@ -362,8 +367,7 @@ RegisterNUICallback('enableMeter', function(data)
     lastLocation = GetEntityCoords(PlayerPedId())
 end)
 
-RegisterNetEvent('qb-taxi:client:toggleMuis')
-AddEventHandler('qb-taxi:client:toggleMuis', function()
+RegisterNetEvent('qb-taxi:client:toggleMuis', function()
     Citizen.Wait(400)
     if meterIsOpen then
         if not mouseActive then

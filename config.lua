@@ -8,7 +8,14 @@ Config.Meter = {
     ["defaultPrice"] = 1.60
 }
 
-Config.Location = vector4(909.5, -177.35, 74.22, 238.5)
+Config.Locations = {
+    ["duty"] = {
+        [1] = vector3(903.05, -172.58, 74.08)
+    },
+    ["vehicle"] = {
+        [1] = vector3(909.5, -177.35, 74.22),
+    },
+}
 
 Config.NPCLocations = {
     TakeLocations = {
