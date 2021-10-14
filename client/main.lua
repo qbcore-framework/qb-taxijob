@@ -460,7 +460,7 @@ function DrawText3D(x, y, z, text)
 end
 
 Citizen.CreateThread(function()
-    TaxiBlip = AddBlipForCoord(Config.Location)
+    TaxiBlip = AddBlipForCoord(Config.Locations["duty"][1])
 
     SetBlipSprite (TaxiBlip, 198)
     SetBlipDisplay(TaxiBlip, 4)
