@@ -340,6 +340,13 @@ RegisterNetEvent('qb-taxi:client:toggleMeter', function()
             QBCore.Functions.Notify('This Vehicle Has No Taxi Meter', 'error')
         end
     else
+	if meterIsOpen then 
+            SendNUIMessage({
+                action = "openMeter",
+                toggle = false
+            })
+            meterIsOpen = false
+        end		
         QBCore.Functions.Notify('You\'re Not In A Vehicle ', 'error')
     end
 end)
