@@ -1,4 +1,3 @@
-local isLoggedIn = false
 local PlayerData = {}
 
 local meterIsOpen = false
@@ -218,14 +217,13 @@ function ResetNpcTask()
 end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    isLoggedIn = true
     PlayerData = QBCore.Functions.GetPlayerData()
     onDuty = PlayerData.job.onduty
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    isLoggedIn = false
-end)
+ --Comment line for now in case something is added.
+--RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+--end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
@@ -266,7 +264,7 @@ end
 Citizen.CreateThread(function()
     while true do
         sleep = 2000
-        if isLoggedIn and PlayerData.job.name == "taxi" then
+        if LocalPlayer.state['isLoggedIn'] and PlayerData.job.name == "taxi" then
             local pos = GetEntityCoords(PlayerPedId())
             for k, v in pairs(Config.Locations["duty"]) do
                 if #(pos - v) < 5 then
