@@ -431,7 +431,7 @@ function VehicleList()
 end
 
 function TakeVehicle(k)
-    local coords = Config.Location
+    local coords = Config.Locations["vehicle"]
     QBCore.Functions.SpawnVehicle(Config.AllowedVehicles[k].model, function(veh)
         SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
         exports['LegacyFuel']:SetFuel(veh, 100.0)
