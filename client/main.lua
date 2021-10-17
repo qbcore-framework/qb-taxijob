@@ -246,7 +246,7 @@ function calculateFareAmount()
   
         if start then
             current = GetEntityCoords(PlayerPedId())
-            distance = #(start - current) --Not the best result but work
+            distance = CalculateTravelDistanceBetweenPoints(start, current)
             meterData['distanceTraveled'] = distance
     
             fareAmount = (meterData['distanceTraveled'] / 400.00) * meterData['fareAmount']
