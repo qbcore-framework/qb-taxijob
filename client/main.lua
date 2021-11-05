@@ -1,11 +1,7 @@
-local isLoggedIn = false
-local PlayerData = {}
+local QBCore = exports['qb-core']:GetCoreObject()
 
 local meterIsOpen = false
-
 local meterActive = false
-local currentTaxi = nil
-
 local lastLocation = nil
 
 local meterData = {
@@ -13,8 +9,6 @@ local meterData = {
     currentFare = 0,
     distanceTraveled = 0,
 }
-
-local dutyPlate = nil
 
 local NpcData = {
     Active = false,
@@ -82,16 +76,15 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
 
                         if dist < 20 then
                             DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
-                        
+
                             if dist < 5 then
-                                local npccoords = GetEntityCoords(NpcData.Npc)
                                 DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, '[E] Call NPC')
                                 if IsControlJustPressed(0, 38) then
                                     local veh = GetVehiclePedIsIn(ped, 0)
-                                    local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
+                                    local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
 
                                     for i=maxSeats - 1, 0, -1 do
-                                        if IsVehicleSeatFree(vehicle, i) then
+                                        if IsVehicleSeatFree(veh, i) then
                                             freeSeat = i
                                             break
                                         end
@@ -161,7 +154,7 @@ function GetDeliveryLocation()
 
             if dist < 20 then
                 DrawMarker(2, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
-            
+
                 if dist < 5 then
                     local npccoords = GetEntityCoords(NpcData.Npc)
                     DrawText3D(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, '[E] Drop Off NPC')
@@ -217,22 +210,6 @@ function ResetNpcTask()
     }
 end
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
-    isLoggedIn = true
-    PlayerData = QBCore.Functions.GetPlayerData()
-end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerUnload')
-AddEventHandler('QBCore:Client:OnPlayerUnload', function()
-    isLoggedIn = false
-end)
-
-RegisterNetEvent('QBCore:Client:OnJobUpdate')
-AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
-    PlayerData.job = JobInfo
-end)
-
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(2000)
@@ -243,14 +220,14 @@ end)
 function calculateFareAmount()
     if meterIsOpen and meterActive then
         start = lastLocation
-  
+
         if start then
             current = GetEntityCoords(PlayerPedId())
             distance = #(start - current) --Not the best result but work
             meterData['distanceTraveled'] = distance
-    
+
             fareAmount = (meterData['distanceTraveled'] / 400.00) * meterData['fareAmount']
-    
+
             meterData['currentFare'] = math.ceil(fareAmount)
 
             SendNUIMessage({
@@ -263,40 +240,36 @@ end
 
 Citizen.CreateThread(function()
     while true do
-
         inRange = false
+        if LocalPlayer.state.isLoggedIn then
+            local Player = QBCore.Functions.GetPlayerData()
+            if Player.job.name == "taxi" then
+                local ped = PlayerPedId()
+                local pos = GetEntityCoords(ped)
 
-        if QBCore ~= nil then
-            if isLoggedIn then
+                local vehDist = #(pos - vector3(Config.Location.x, Config.Location.y, Config.Location.z))
 
-                if PlayerData.job.name == "taxi" then
-                    local ped = PlayerPedId()
-                    local pos = GetEntityCoords(ped)
+                if vehDist < 30 then
+                    inRange = true
 
-                    local vehDist = #(pos - vector3(Config.Location.x, Config.Location.y, Config.Location.z))
+                    DrawMarker(2, Config.Location.x, Config.Location.y, Config.Location.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
 
-                    if vehDist < 30 then
-                        inRange = true
-
-                        DrawMarker(2, Config.Location.x, Config.Location.y, Config.Location.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
-
-                        if vehDist < 1.5 then
-                            if whitelistedVehicle() then
-                                DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Vehicle Parking')
-                                if IsControlJustReleased(0, 38) then
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
-                                    end
-                                end
-                            else
-                                DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Job Vehicles')
-                                if IsControlJustReleased(0, 38) then
-                                    TaxiGarage()
-                                    Menu.hidden = not Menu.hidden
+                    if vehDist < 1.5 then
+                        if whitelistedVehicle() then
+                            DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Vehicle Parking')
+                            if IsControlJustReleased(0, 38) then
+                                if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                    DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                 end
                             end
-                            Menu.renderGUI()
+                        else
+                            DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Job Vehicles')
+                            if IsControlJustReleased(0, 38) then
+                                TaxiGarage()
+                                Menu.hidden = not Menu.hidden
+                            end
                         end
+                        Menu.renderGUI()
                     end
                 end
             end
@@ -313,9 +286,9 @@ end)
 RegisterNetEvent('qb-taxi:client:toggleMeter')
 AddEventHandler('qb-taxi:client:toggleMeter', function()
     local ped = PlayerPedId()
-    
+
     if IsPedInAnyVehicle(ped, false) then
-        if whitelistedVehicle() then 
+        if whitelistedVehicle() then
             if not meterIsOpen and IsDriver() then
                 SendNUIMessage({
                     action = "openMeter",
@@ -340,8 +313,6 @@ end)
 
 RegisterNetEvent('qb-taxi:client:enableMeter')
 AddEventHandler('qb-taxi:client:enableMeter', function()
-    local ped = PlayerPedId()
-
     if meterIsOpen then
         SendNUIMessage({
             action = "toggleMeter"
@@ -394,7 +365,7 @@ function whitelistedVehicle()
     if veh == GetHashKey("dynasty") then
         retval = true
     end
-    
+
     return retval
 end
 
@@ -407,7 +378,7 @@ function TaxiGarage()
     MenuTitle = "Garage"
     ClearMenu()
     Menu.addButton("Vehicles", "VehicleList", nil)
-    Menu.addButton("Close Menu", "closeMenuFull", nil) 
+    Menu.addButton("Close Menu", "closeMenuFull", nil)
 end
 
 function VehicleList()
@@ -417,7 +388,7 @@ function VehicleList()
     for k, v in pairs(Config.AllowedVehicles) do
         Menu.addButton(Config.AllowedVehicles[k].label, "TakeVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
     end
-        
+
     Menu.addButton("Back", "TaxiGarage",nil)
 end
 
@@ -430,7 +401,6 @@ function TakeVehicle(k)
         TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
-        dutyPlate = GetVehicleNumberPlateText(veh)
     end, coords, true)
 end
 
