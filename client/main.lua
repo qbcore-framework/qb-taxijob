@@ -399,7 +399,7 @@ function TakeVehicle(k)
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         closeMenuFull()
         TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-        TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
+        TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
         SetVehicleEngineOn(veh, true, true)
     end, coords, true)
 end
