@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('qb-taxi:server:NpcPay')
-AddEventHandler('qb-taxi:server:NpcPay', function(Payment)
+RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
     local fooikansasah = math.random(1, 5)
     local r1, r2 = math.random(1, 5), math.random(1, 5)
 
@@ -20,4 +19,3 @@ AddEventHandler('qb-taxi:server:NpcPay', function(Payment)
         TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items["cryptostick"], "add")
     end
 end)
-
