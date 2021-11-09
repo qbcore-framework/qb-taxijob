@@ -25,17 +25,16 @@ local NpcData = {
 }
 
 function TimeoutNpc()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while NpcData.CountDown ~= 0 do
             NpcData.CountDown = NpcData.CountDown - 1
-            Citizen.Wait(1000)
+            Wait(1000)
         end
         NpcData.CountDown = 180
     end)
 end
 
-RegisterNetEvent('qb-taxi:client:DoTaxiNpc')
-AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
+RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
     if whitelistedVehicle() then
        -- if NpcData.CountDown == 180 then
             if not NpcData.Active then
@@ -51,7 +50,7 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                 local model = GetHashKey(Config.NpcSkins[Gender][PedSkin])
                 RequestModel(model)
                 while not HasModelLoaded(model) do
-                    Citizen.Wait(0)
+                    Wait(0)
                 end
                 NpcData.Npc = CreatePed(3, model, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z - 0.98, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].w, false, true)
                 PlaceObjectOnGroundProperly(NpcData.Npc)
@@ -67,7 +66,7 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                 NpcData.LastNpc = NpcData.CurrentNpc
                 NpcData.Active = true
 
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     while not NpcData.NpcTaken do
 
                         local ped = PlayerPedId()
@@ -114,7 +113,7 @@ AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
                             end
                         end
 
-                        Citizen.Wait(1)
+                        Wait(1)
                     end
                 end)
             else
@@ -145,7 +144,7 @@ function GetDeliveryLocation()
     SetBlipRouteColour(NpcData.DeliveryBlip, 3)
     NpcData.LastDeliver = NpcData.CurrentDeliver
 
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
 
             local ped = PlayerPedId()
@@ -190,7 +189,7 @@ function GetDeliveryLocation()
                 end
             end
 
-            Citizen.Wait(1)
+            Wait(1)
         end
     end)
 end
@@ -210,9 +209,9 @@ function ResetNpcTask()
     }
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(2000)
+        Wait(2000)
         calculateFareAmount()
     end
 end)
@@ -238,7 +237,7 @@ function calculateFareAmount()
     end
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         inRange = false
         if LocalPlayer.state.isLoggedIn then
@@ -276,15 +275,14 @@ Citizen.CreateThread(function()
         end
 
         if not inRange then
-            Citizen.Wait(3000)
+            Wait(3000)
         end
 
-        Citizen.Wait(3)
+        Wait(3)
     end
 end)
 
-RegisterNetEvent('qb-taxi:client:toggleMeter')
-AddEventHandler('qb-taxi:client:toggleMeter', function()
+RegisterNetEvent('qb-taxi:client:toggleMeter', function()
     local ped = PlayerPedId()
 
     if IsPedInAnyVehicle(ped, false) then
@@ -311,8 +309,7 @@ AddEventHandler('qb-taxi:client:toggleMeter', function()
     end
 end)
 
-RegisterNetEvent('qb-taxi:client:enableMeter')
-AddEventHandler('qb-taxi:client:enableMeter', function()
+RegisterNetEvent('qb-taxi:client:enableMeter', function()
     if meterIsOpen then
         SendNUIMessage({
             action = "toggleMeter"
@@ -333,9 +330,8 @@ RegisterNUICallback('enableMeter', function(data)
     lastLocation = GetEntityCoords(PlayerPedId())
 end)
 
-RegisterNetEvent('qb-taxi:client:toggleMuis')
-AddEventHandler('qb-taxi:client:toggleMuis', function()
-    Citizen.Wait(400)
+RegisterNetEvent('qb-taxi:client:toggleMuis', function()
+    Wait(400)
     if meterIsOpen then
         if not mouseActive then
             SetNuiFocus(true, true)
@@ -425,7 +421,7 @@ function DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     TaxiBlip = AddBlipForCoord(Config.Location)
 
     SetBlipSprite (TaxiBlip, 198)
@@ -433,7 +429,6 @@ Citizen.CreateThread(function()
     SetBlipScale  (TaxiBlip, 0.6)
     SetBlipAsShortRange(TaxiBlip, true)
     SetBlipColour(TaxiBlip, 5)
-
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName("Downtown Cab")
     EndTextCommandSetBlipName(TaxiBlip)
