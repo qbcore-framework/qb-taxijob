@@ -181,7 +181,6 @@ function TaxiGarage()
                 }
             }
         }
-        print(v.label, v.model)
     end
     vehicleMenu[#vehicleMenu+1] = {
         header = "⬅ Close Menu",
