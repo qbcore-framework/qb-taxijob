@@ -161,30 +161,41 @@ local function GetDeliveryLocation()
     end)
 end
 
--- Old Menu Code (being removed)
+-- Menu
 
 function TaxiGarage()
-    ped = PlayerPedId();
-    MenuTitle = "Garage"
-    ClearMenu()
-    Menu.addButton("Vehicles", "VehicleList", nil)
-    Menu.addButton("Close Menu", "closeMenuFull", nil)
-end
-
-function VehicleList()
-    ped = PlayerPedId();
-    MenuTitle = "Vehicles:"
-    ClearMenu()
-    for k, v in pairs(Config.AllowedVehicles) do
-        Menu.addButton(Config.AllowedVehicles[k].label, "TakeVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
+    local vehicleMenu = {
+        {
+            header = "Taxi Vehicles",
+            isMenuHeader = true
+        }
+    }
+    for veh, v in pairs(Config.AllowedVehicles) do
+        vehicleMenu[#vehicleMenu+1] = {
+            header = v.label,
+            txt = "Motor: 100% Body: 100% Fuel: 100%",
+            params = {
+                event = "qb-taxi:client:TakeVehicle",
+                args = {
+                    model = v.model
+                }
+            }
+        }
+        print(v.label, v.model)
     end
-
-    Menu.addButton("Back", "TaxiGarage",nil)
+    vehicleMenu[#vehicleMenu+1] = {
+        header = "⬅ Close Menu",
+        txt = "",
+        params = {
+            event = "qb-menu:client:closeMenu"
+        }
+    }
+    exports['qb-menu']:openMenu(vehicleMenu)
 end
 
-function TakeVehicle(k)
+RegisterNetEvent("qb-taxi:client:TakeVehicle", function(data)
     local coords = Config.Location
-    QBCore.Functions.SpawnVehicle(Config.AllowedVehicles[k].model, function(veh)
+    QBCore.Functions.SpawnVehicle(data.model, function(veh)
         SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         closeMenuFull()
@@ -192,12 +203,10 @@ function TakeVehicle(k)
         TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
         SetVehicleEngineOn(veh, true, true)
     end, coords, true)
-end
+end)
 
 function closeMenuFull()
-    Menu.hidden = true
-    currentGarage = nil
-    ClearMenu()
+    exports['qb-menu']:closeMenu()
 end
 
 -- Events
