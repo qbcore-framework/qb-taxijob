@@ -415,10 +415,8 @@ CreateThread(function()
                             DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Job Vehicles')
                             if IsControlJustReleased(0, 38) then
                                 TaxiGarage()
-                                Menu.hidden = not Menu.hidden
                             end
                         end
-                        Menu.renderGUI()
                     end
                 end
             end
