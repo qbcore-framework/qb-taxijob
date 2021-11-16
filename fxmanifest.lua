@@ -8,11 +8,7 @@ ui_page 'html/meter.html'
 
 shared_script 'config.lua'
 
-client_scripts {
-    'client/main.lua',
-    'client/gui.lua'
-}
-
+client_script 'client/main.lua'
 server_script 'server/main.lua'
 
 files {
