@@ -173,7 +173,6 @@ function TaxiGarage()
     for veh, v in pairs(Config.AllowedVehicles) do
         vehicleMenu[#vehicleMenu+1] = {
             header = v.label,
-            txt = "Motor: 100% Body: 100% Fuel: 100%",
             params = {
                 event = "qb-taxi:client:TakeVehicle",
                 args = {
