@@ -367,15 +367,18 @@ end)
 -- Threads
 
 CreateThread(function()
-    TaxiBlip = AddBlipForCoord(Config.Location)
-    SetBlipSprite (TaxiBlip, 198)
-    SetBlipDisplay(TaxiBlip, 4)
-    SetBlipScale  (TaxiBlip, 0.6)
-    SetBlipAsShortRange(TaxiBlip, true)
-    SetBlipColour(TaxiBlip, 5)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Downtown Cab")
-    EndTextCommandSetBlipName(TaxiBlip)
+    local Player = QBCore.Functions.GetPlayerData()
+    if Player.job.name == "taxi" then
+        TaxiBlip = AddBlipForCoord(Config.Location)
+        SetBlipSprite (TaxiBlip, 198)
+        SetBlipDisplay(TaxiBlip, 4)
+        SetBlipScale  (TaxiBlip, 0.6)
+        SetBlipAsShortRange(TaxiBlip, true)
+        SetBlipColour(TaxiBlip, 5)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName("Downtown Cab")
+        EndTextCommandSetBlipName(TaxiBlip)
+    end
 end)
 
 CreateThread(function()
