@@ -6,7 +6,11 @@ version '1.0.0'
 
 ui_page 'html/meter.html'
 
-shared_script 'config.lua'
+shared_scripts {
+    '@qb-core/shared/locale.lua',
+    'locales/en.lua', -- Change to the language you want to use
+    'config.lua',
+}
 
 client_script 'client/main.lua'
 server_script 'server/main.lua'
