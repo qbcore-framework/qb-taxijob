@@ -125,7 +125,7 @@ local function GetDeliveryLocation()
             if dist < 20 then
                 DrawMarker(2, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                 if dist < 5 then
-                    DrawText3D(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, '[E] Drop Off NPC')
+                    DrawText3D(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, Lang:t("info.drop_off_npc"))
                     if IsControlJustPressed(0, 38) then
                         local veh = GetVehiclePedIsIn(ped, 0)
                         TaskLeaveVehicle(NpcData.Npc, veh, 0)
@@ -141,7 +141,7 @@ local function GetDeliveryLocation()
                         SendNUIMessage({
                             action = "resetMeter"
                         })
-                        QBCore.Functions.Notify('Person Was Dropped Off', 'success')
+                        QBCore.Functions.Notify(Lang:t("info.person_was_dropped_off"), 'success')
                         if NpcData.DeliveryBlip ~= nil then
                             RemoveBlip(NpcData.DeliveryBlip)
                         end
@@ -166,7 +166,7 @@ end
 function TaxiGarage()
     local vehicleMenu = {
         {
-            header = "Taxi Vehicles",
+            header = Lang:t("menu.taxi_menu_header"),
             isMenuHeader = true
         }
     }
@@ -182,7 +182,7 @@ function TaxiGarage()
         }
     end
     vehicleMenu[#vehicleMenu+1] = {
-        header = "⬅ Close Menu",
+        header = Lang:t("menu.close_menu"),
         txt = "",
         params = {
             event = "qb-menu:client:closeMenu"
@@ -232,7 +232,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
             if NpcData.NpcBlip ~= nil then
                 RemoveBlip(NpcData.NpcBlip)
             end
-            QBCore.Functions.Notify('The NPC Is Indicated On Your GPS', 'success')
+            QBCore.Functions.Notify(Lang:t("info.npc_on_gps"), 'success')
             NpcData.NpcBlip = AddBlipForCoord(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z)
             SetBlipColour(NpcData.NpcBlip, 3)
             SetBlipRoute(NpcData.NpcBlip, true)
@@ -251,7 +251,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                         DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
 
                         if dist < 5 then
-                            DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, '[E] Call NPC')
+                            DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, Lang:t("info.call_npc"))
                             if IsControlJustPressed(0, 38) then
                                 local veh = GetVehiclePedIsIn(ped, 0)
                                 local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
@@ -277,7 +277,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                                 ClearPedTasksImmediately(NpcData.Npc)
                                 FreezeEntityPosition(NpcData.Npc, false)
                                 TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
-                                QBCore.Functions.Notify('Bring The NPC To The Specified Location')
+                                QBCore.Functions.Notify(Lang:t("info.go_to_location"))
                                 if NpcData.NpcBlip ~= nil then
                                     RemoveBlip(NpcData.NpcBlip)
                                 end
@@ -291,10 +291,10 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                 end
             end)
         else
-            QBCore.Functions.Notify('You Are Already Doing An NPC Mission')
+            QBCore.Functions.Notify(Lang:t("error.already_mission"))
         end
     else
-        QBCore.Functions.Notify('You Are Not In A Taxi')
+        QBCore.Functions.Notify(Lang:t("error.not_in_taxi"))
     end
 end)
 
@@ -317,10 +317,10 @@ RegisterNetEvent('qb-taxi:client:toggleMeter', function()
                 meterIsOpen = false
             end
         else
-            QBCore.Functions.Notify('This Vehicle Has No Taxi Meter', 'error')
+            QBCore.Functions.Notify(Lang:t("error.missing_meter"), 'error')
         end
     else
-        QBCore.Functions.Notify('You\'re Not In A Vehicle ', 'error')
+        QBCore.Functions.Notify(Lang:t("error.no_vehicle"), 'error')
     end
 end)
 
@@ -330,7 +330,7 @@ RegisterNetEvent('qb-taxi:client:enableMeter', function()
             action = "toggleMeter"
         })
     else
-        QBCore.Functions.Notify('The Taxi Meter Is Not Active', 'error')
+        QBCore.Functions.Notify(Lang:t("error.not_active_meter"), 'error')
     end
 end)
 
@@ -342,7 +342,7 @@ RegisterNetEvent('qb-taxi:client:toggleMuis', function()
             mouseActive = true
         end
     else
-        QBCore.Functions.Notify('No Taxi Meter In Sight', 'error')
+        QBCore.Functions.Notify(Lang:t("error.no_meter_sight"), 'error')
     end
 end)
 
@@ -374,7 +374,7 @@ CreateThread(function()
     SetBlipAsShortRange(TaxiBlip, true)
     SetBlipColour(TaxiBlip, 5)
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Downtown Cab")
+    AddTextComponentSubstringPlayerName(Lang:t("info.blip_name"))
     EndTextCommandSetBlipName(TaxiBlip)
 end)
 
@@ -403,14 +403,14 @@ CreateThread(function()
 
                     if vehDist < 1.5 then
                         if whitelistedVehicle() then
-                            DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Vehicle Parking')
+                            DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, Lang:t("info.vehicle_parking"))
                             if IsControlJustReleased(0, 38) then
                                 if IsPedInAnyVehicle(PlayerPedId(), false) then
                                     DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                 end
                             end
                         else
-                            DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, '[E] Job Vehicles')
+                            DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, Lang:t("info.job_vehicles"))
                             if IsControlJustReleased(0, 38) then
                                 TaxiGarage()
                             end
