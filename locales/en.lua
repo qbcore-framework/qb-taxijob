@@ -17,6 +17,7 @@ local Translations = {
         ["drop_off_npc"] = "[E] Drop Off NPC",
         ["call_npc"] = "[E] Call NPC",
         ["blip_name"] = "Downtown Cab",
+        ["taxi_label_1"] = "Standard Cab", 
     },
     menu = {
         ["taxi_menu_header"] = "Taxi Vehicles", 
