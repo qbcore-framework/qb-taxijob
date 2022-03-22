@@ -595,7 +595,7 @@ function createNpcPickUpLocation()
         if isPlayerInside then
             if whitelistedVehicle() and not isInsidePickupZone and not NpcData.NpcTaken then
                 isInsidePickupZone = true 
-                exports['qb-core']:DrawText('[E] to Call NPC','left')
+                exports['qb-core']:DrawText(Lang:t("info.call_npc"), Config.DefaultTextLocation)
                 callNpcPoly() 
             end
         else 
@@ -617,7 +617,7 @@ function createNpcDelieveryLocation()
         if isPlayerInside then
             if whitelistedVehicle() and not isInsideDropZone and NpcData.NpcTaken then
                 isInsideDropZone = true 
-                exports['qb-core']:DrawText('[E] to Drop NPC','left')
+                exports['qb-core']:DrawText(Lang:t("info.drop_off_npc"), Config.DefaultTextLocation)
                 dropNpcPoly() 
             end
         else 
@@ -728,11 +728,12 @@ function setupCabParkingLocation()
     taxiParking:onPlayerInOut(function(isPlayerInside) 
         if isPlayerInside and not Notified and Config.UseTarget then
             if whitelistedVehicle() then
-                QBCore.Functions.Notify(Lang:t("info.vehicle_parking"), 'success')
+                exports['qb-core']:DrawText(Lang:t("info.vehicle_parking"), Config.DefaultTextLocation)
                 Notified = true
                 isPlayerInsideZone = true 
             end
         else 
+            exports['qb-core']:HideText()
             Notified = false
             isPlayerInsideZone = false
         end
@@ -744,9 +745,14 @@ CreateThread(function()
     while true do 
         if isPlayerInsideZone then 
             if IsControlJustReleased(0, 38) then
+                exports['qb-core']:KeyPressed()
                 if IsPedInAnyVehicle(PlayerPedId(), false) then
                     local ped = PlayerPedId()
                     local vehicle = GetVehiclePedIsIn(ped, false)
+                    if meterIsOpen then 
+                        TriggerEvent('qb-taxi:client:toggleMeter')
+                        meterActive = false
+                    end
                     TaskLeaveVehicle(PlayerPedId(), vehicle, 0)
                     Wait(2000) -- 2 second delay just to ensure the player is out of the vehicle
                     DeleteVehicle(vehicle)
