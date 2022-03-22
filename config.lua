@@ -1,5 +1,10 @@
 Config = Config or {}
 
+-- set this to false if you want to use distance checks
+Config.UseTarget = false
+-- Config.UseTarget = GetConvar('UseTarget', 'false')
+
+
 Config.AllowedVehicles = {
    [1] = {model = "taxi", label = Lang:t("info.taxi_label_1")},
 }
@@ -7,6 +12,8 @@ Config.AllowedVehicles = {
 Config.Meter = {
     ["defaultPrice"] = 1.60
 }
+
+Config.BossMenu = vector3(903.32, -170.55, 74.0)
 
 Config.Location = vector4(909.5, -177.35, 74.22, 238.5)
 
@@ -53,6 +60,367 @@ Config.NPCLocations = {
         [21] = vector4(218.34, 677.47, 189.26, 359.5),
         [22] = vector4(263.2, 1138.81, 221.75, 203.5),
         [23] = vector4(220.64, -1010.81, 29.22, 160.5),
+    }
+}
+
+Config.PZLocations = {
+
+    TakeLocations = {
+        [1] = {
+            coord = vector3(258.98, -377.9, 44.7),
+            height = 17.6,
+            width = 4.2,
+            heading=69,
+            --debugPoly=true,
+            minZ=43.75,
+            maxZ=45.55
+        },
+        [2] = {
+            coord = vector3(-50.06, -784.57, 44.16),
+            height = 17.6,
+            width = 4.2,
+            heading=62,
+            --debugPoly=true,
+            minZ=43.21,
+            maxZ=45.01
+        },
+        [3] = {
+            coord = vector3(238.93, -858.91, 29.67),
+            height = 17.6,
+            width = 4.2,
+            heading=71,
+            --debugPoly=true,
+            minZ=28.72,
+            maxZ=30.52
+        },
+        [4] = {
+            coord = vector3(823.4, -1882.96, 29.29),
+            height = 17.6,
+            width = 4.2,
+            heading=167,
+            --debugPoly=true,
+            minZ=28.34,
+            maxZ=30.14
+        },
+        [5] = {
+            coord = vector3(354.05, -1971.57, 24.43),
+            height = 17.6,
+            width = 4.2,
+            heading=236,
+            --debugPoly=true,
+            minZ=23.48,
+            maxZ=25.28
+        },
+        [6] = {
+            coord = vector3(-225.61, -2043.63, 27.62),
+            height = 17.6,
+            width = 4.2,
+            heading=143,
+            --debugPoly=true,
+            minZ=26.67,
+            maxZ=28.47
+        },
+        [7] = {
+              coord = vector3(-1048.72, -2714.2, 13.76),
+            height = 17.6,
+            width = 4.2,
+            heading=240,
+            --debugPoly=true,
+            minZ=12.81,
+            maxZ=14.61
+        },
+        [8] = {
+            coord = vector3(-776.15, -1280.37, 5.0),
+            height = 17.6,
+            width = 4.2,
+            heading=261,
+            --debugPoly=true,
+            minZ=4.05,
+            maxZ=5.85
+        },
+        [9] = {
+            coord = vector3(-1180.3, -1304.22, 5.15),
+            height = 17.6,
+            width = 4.2,
+            heading=205,
+            --debugPoly=true,
+            minZ=4.2,
+            maxZ=6.0
+        },
+        [10] = {
+            coord = vector3(-1326.52, -833.32, 16.85),
+            height = 17.6,
+            width = 4.2,
+            heading=225,
+            --debugPoly=true,
+            minZ=15.9,
+            maxZ=17.7
+        },
+        [11] = {
+            coord = vector3(-1610.24, -1015.33, 13.07),
+            height = 17.6,
+            width = 4.2,
+            heading=227,
+            --debugPoly=true,
+            minZ=12.12,
+            maxZ=13.92
+        },
+        [12] = {
+            coord = vector3(-1396.85, -583.72, 30.08),
+            height = 17.6,
+            width = 4.2,
+            heading=299,
+            --debugPoly=true,
+            minZ=29.13,
+            maxZ=30.93
+        },
+        [13] = {
+            coord = vector3(-513.06, -263.2, 35.43),
+            height = 17.6,
+            width = 4.2,
+            heading=293,
+            --debugPoly=true,
+            minZ=34.48,
+            maxZ=36.28
+        },
+        [14] = {
+            coord = vector3(-756.46, -35.84, 37.69),
+            height = 17.6,
+            width = 4.2,
+            heading=297,
+            --debugPoly=true,
+            minZ=36.74,
+            maxZ=38.54
+        },
+        [15] = {
+            coord = vector3(-1285.33, 293.67, 64.83),
+            height = 17.6,
+            width = 4.2,
+            heading=241,
+            --debugPoly=true,
+            minZ=63.88,
+            maxZ=65.68
+        },
+        [16] = {
+            coord = vector3(-806.68, 825.2, 202.81),
+            height = 21.2,
+            width = 4.2,
+            heading=276,
+            --debugPoly=true,
+            minZ=200.46,
+            maxZ=204.66
+        },
+    },
+
+    DropLocations = {
+        [1] = {
+            coord = vector3(-1073.21, -265.35, 37.35),
+            height = 21.2, 
+            width = 4.2,
+            heading=296,
+            --debugPoly=true,
+            minZ=35.0,
+            maxZ=39.2
+        },
+        [2] = {
+            coord = vector3(-1411.45, -590.98, 29.99),
+            height = 21.2, 
+            width = 4.2,
+            heading=299,
+            --debugPoly=true,
+            minZ=27.64,
+            maxZ=31.84
+        },
+        [3] = {
+            coord = vector3(-678.68, -845.54, 23.53),
+            height = 21.2, 
+            width = 4.2,
+            heading=269,
+            --debugPoly=true,
+            minZ=21.18,
+            maxZ=25.38
+        },
+        [4] = {
+            coord = vector3(-159.11, -1565.46, 34.69),
+            height = 21.2, 
+            width = 4.2,
+            heading=321,
+            --debugPoly=true,
+            minZ=32.34,
+            maxZ=36.54
+        },
+        [5] = {
+            coord = vector3(442.12, -1685.31, 28.85),
+            height = 21.2, 
+            width = 4.2,
+            heading=321,
+            --debugPoly=true,
+            minZ=26.5,
+            maxZ=30.7
+        },
+        [6] = {
+            coord = vector3(1120.51, -958.97, 46.83),
+            height = 21.2, 
+            width = 4.2,
+            heading=286,
+            --debugPoly=true,
+            minZ=44.48,
+            maxZ=48.68
+        },
+        [7] = {
+            coord = vector3(1240.79, -377.77, 68.61),
+            height = 21.2, 
+            width = 4.2,
+            heading=249,
+            --debugPoly=true,
+            minZ=66.26,
+            maxZ=70.46
+        },
+        [8] = {
+            coord = vector3(923.66, -2226.07, 29.98),
+            height = 21.2, 
+            width = 4.2,
+            heading=354,
+            --debugPoly=true,
+            minZ=27.63,
+            maxZ=31.83
+        },
+        [9] = {
+            coord = vector3(1920.15, 3701.6, 32.26),
+            height = 21.2, 
+            width = 4.2,
+            heading=299,
+            --debugPoly=true,
+            minZ=29.91,
+            maxZ=34.11
+        },
+        [10] = {
+            coord = vector3(1661.91, 4875.87, 41.66),
+            height = 21.2, 
+            width = 4.2,
+            heading=8,
+            --debugPoly=true,
+            minZ=39.31,
+            maxZ=43.51
+        },
+        [11] = {
+            coord = vector3(-9.46, 6529.92, 30.95),
+            height = 21.2, 
+            width = 4.2,
+            heading=314,
+            --debugPoly=true,
+            minZ=28.6,
+            maxZ=32.8
+        },
+        [12] = {
+            coord = vector3(-3233.12, 1010.33, 11.72),
+            height = 21.2, 
+            width = 4.2,
+            heading=357,
+            --debugPoly=true,
+            minZ=9.37,
+            maxZ=13.57
+        },
+        [13] = {
+            coord = vector3(-1604.11, -401.71, 41.95),
+            height = 21.2, 
+            width = 4.2,
+            heading=322,
+            --debugPoly=true,
+            minZ=39.6,
+            maxZ=43.8
+        },
+        [14] = {
+            coord = vector3(-586.48, -255.96, 36.53),
+            height = 21.2, 
+            width = 4.2,
+            heading=31,
+            --debugPoly=true,
+            minZ=34.68,
+            maxZ=37.48
+        },
+        [15] = {
+            coord = vector3(23.51, -60.47, 63.2),
+            height = 21.2, 
+            width = 4.2,
+            heading=156,
+            --debugPoly=true,
+            minZ=60.55,
+            maxZ=65.75
+        },
+        [16] = {
+            coord = vector3(550.26, 172.54, 99.71),
+            height = 21.2, 
+            width = 4.2,
+            heading=161,
+            --debugPoly=true,
+            minZ=98.51,
+            maxZ=100.91
+        },
+        [17] = {
+            coord = vector3(-1048.62, -2540.53, 13.3),
+            height = 21.2, 
+            width = 4.2,
+            heading=151,
+            --debugPoly=true,
+            minZ=12.9,
+            maxZ=14.9
+        },
+        [18] = {
+            coord = vector3(-10.06, -544.39, 38.28),
+            height = 21.2, 
+            width = 4.2,
+            heading=91,
+            --debugPoly=true,
+            minZ=36.28,
+            maxZ=39.88
+        },
+        [19] = {
+            coord = vector3(-7.91, -258.19, 46.49),
+            height = 21.2, 
+            width = 4.2,
+            heading=71,
+            --debugPoly=true,
+            minZ=45.29,
+            maxZ=47.69
+        },
+        [20] = {
+            coord = vector3(-743.03, 818.9, 213.16),
+            height = 21.2, 
+            width = 4.2,
+            heading=38,
+            --debugPoly=true,
+            minZ=211.96,
+            maxZ=214.36
+        },
+        [21] = {
+            coord = vector3(218.25, 677.55, 188.87),
+            height = 21.2, 
+            width = 4.2,
+            heading=163,
+            --debugPoly=true,
+            minZ=187.67,
+            maxZ=190.07
+        },
+        [22] = {
+            coord = vector3(264.47, 1138.41, 221.36),
+            height = 21.2, 
+            width = 4.2,
+            heading=203,
+            --debugPoly=true,
+            minZ=220.16,
+            maxZ=222.56
+        },
+        [23] = {
+            coord = vector3(220.47, -1010.7, 28.82),
+            height = 21.2, 
+            width = 4.2,
+            heading=158,
+            --debugPoly=true,
+            minZ=28.02,
+            maxZ=30.42
+        },
+
     }
 }
 
@@ -201,4 +569,18 @@ Config.NpcSkins = {
         'a_m_m_prolhost_01',
         'a_m_m_rurmeth_01',
     }
+}
+
+Config.CabSpawns = {
+    vector4(899.0837, -180.4414, 73.4115, 238.7553),
+    vector4(897.1274, -183.3882, 73.3531, 238.4949),
+    vector4(903.4929, -191.7166, 73.3883, 60.5255),
+    vector4(904.9221, -188.7516, 73.4204, 60.5921),
+    vector4(906.9083, -186.0502, 73.6249, 58.2671),
+    vector4(908.7374, -183.2168, 73.7542, 57.1579),
+    vector4(911.3865, -163.0307, 73.9763, 194.4093),
+    vector4(913.5932, -159.4309, 74.3888, 193.9838),
+    vector4(916.0979, -170.6549, 74.0125, 100.604),
+    vector4(918.3217, -167.1944, 74.2036, 101.5165),
+    vector4(920.6716, -163.4763, 74.4108, 96.2972)
 }
