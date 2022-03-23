@@ -53,15 +53,15 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
 end)
 
 
-AddEventHandler('onResourceStart', function(resourceName)
-    if GetCurrentResourceName() ~= resourceName then return end
-    Wait(2000)
-    if Config.UseTarget then
-        setupTarget()
-        setupCabParkingLocation()
-    end
-    PlayerJob = QBCore.Functions.GetPlayerData().job
-end)
+-- AddEventHandler('onResourceStart', function(resourceName)
+--     if GetCurrentResourceName() ~= resourceName then return end
+--     Wait(2000)
+--     if Config.UseTarget then
+--         setupTarget()
+--         setupCabParkingLocation()
+--     end
+--     PlayerJob = QBCore.Functions.GetPlayerData().job
+-- end)
 
 
 
