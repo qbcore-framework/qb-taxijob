@@ -768,7 +768,7 @@ end)
 -- switched boss menu from qb-bossmenu to taxijob
 CreateThread(function() 
     while true do 
-        if PlayerJob.isboss and not Config.UseTarget then 
+        if PlayerJob.name == "taxi" and PlayerJob.isboss and not Config.UseTarget then
             local pos = GetEntityCoords(PlayerPedId())
             if #(pos - Config.BossMenu) < 2.0 then
                 sleep = 7
@@ -781,5 +781,3 @@ CreateThread(function()
         Wait(sleep)
     end
 end)
-
-
