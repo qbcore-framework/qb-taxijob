@@ -1,7 +1,7 @@
 Config = Config or {}
 
 -- set this to false if you want to use distance checks
-Config.UseTarget = false
+Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 -- Config.UseTarget = GetConvar('UseTarget', 'false')
 
 Config.DefaultTextLocation = "left" -- left, right, top
