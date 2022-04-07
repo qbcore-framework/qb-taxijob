@@ -81,6 +81,14 @@ local function ResetNpcTask()
     }
 end
 
+local function resetMeter()
+    meterData = {
+        fareAmount = 6,
+        currentFare = 0,
+        distanceTraveled = 0,
+    }
+end
+
 local function whitelistedVehicle()
     local ped = PlayerPedId()
     local veh = GetEntityModel(GetVehiclePedIsIn(ped))
@@ -467,11 +475,10 @@ end)
 RegisterNUICallback('enableMeter', function(data)
     meterActive = data.enabled
 
-    if not data.enabled then
-        SendNUIMessage({
-            action = "resetMeter"
-        })
+    if not meterActive then
+        resetMeter()
     end
+
     lastLocation = GetEntityCoords(PlayerPedId())
 end)
 
