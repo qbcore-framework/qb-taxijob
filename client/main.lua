@@ -273,7 +273,7 @@ function TaxiGarage()
         }
     end
     -- qb-bossmenu:client:openMenu
-    if PlayerJob.name == "taxi" and PlayerJob.isboss and Config.UseTarget then 
+    if PlayerJob.name == "taxi" and PlayerJob.isboss and Config.UseTarget then
         vehicleMenu[#vehicleMenu+1] = {
             header = Lang:t("menu.boss_menu"),
             txt = "",
@@ -507,8 +507,23 @@ CreateThread(function()
     end
 end)
 
+CreateThread(function()
+    while true do
+        if not IsPedInAnyVehicle(PlayerPedId(), false) then
+            if meterIsOpen then
+                SendNUIMessage({
+                    action = "openMeter",
+                    toggle = false
+                })
+                meterIsOpen = false
+            end
+        end
+        Wait(200)
+    end
+end)
+
 RegisterNetEvent('qb-taxijob:client:requestcab')
-AddEventHandler('qb-taxijob:client:requestcab', function() 
+AddEventHandler('qb-taxijob:client:requestcab', function()
     TaxiGarage()
 end)
 
