@@ -42,12 +42,12 @@ $(document).ready(function(){
 
 function updateMeter(meterData) {
     $("#total-price").html("$ "+ (meterData.currentFare).toFixed(2))
-    $("#total-distance").html((meterData.distanceTraveled / 200).toFixed(1) + " M")
+    $("#total-distance").html((meterData.distanceTraveled / 200).toFixed(1) + " mi")
 }
 
 function resetMeter() {
     $("#total-price").html("$ 0.00")
-    $("#total-distance").html("0.0 M")
+    $("#total-distance").html("0.0 mi")
 }
 
 function meterToggle() {
@@ -68,10 +68,10 @@ function meterToggle() {
 
 function toggleMeter(enabled) {
     if (enabled) {
-        $(".toggle-meter-btn").html("<p>Start</p>");
+        $(".toggle-meter-btn").html("<p>Started</p>");
         $(".toggle-meter-btn p").css({"color": "rgb(51, 160, 37)"});
     } else {
-        $(".toggle-meter-btn").html("<p>Stop</p>");
+        $(".toggle-meter-btn").html("<p>Stopped</p>");
         $(".toggle-meter-btn p").css({"color": "rgb(231, 30, 37)"});
     }
 }
