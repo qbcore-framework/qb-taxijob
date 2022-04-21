@@ -31,6 +31,7 @@ server_script 'server/main.lua'
 files {
 	'html/meter.css',
 	'html/meter.html',
+	'html/meter-tc.html',
 	'html/meter.js',
 	'html/reset.css',
 	'html/g5-meter.png'

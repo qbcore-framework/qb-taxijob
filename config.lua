@@ -11,19 +11,15 @@ Config.AllowedVehicles = {
         "taxi", -- 模型名稱
     },
     [0] = {
-        "taxi",
     },
     [1] = {
-        "taxi",
     },
     [2] = {
-        "taxi",
     },
     [3] = {
-        "taxi",
     },
     [4] = {
-        "taxi",
+        'gto'
     },
 }
 
@@ -58,7 +54,7 @@ Config.Locations = {
             },
         },
     }
-},
+}
 
 Config.NPCLocations = {
     TakeLocations = {

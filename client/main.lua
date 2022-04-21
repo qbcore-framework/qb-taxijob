@@ -121,7 +121,7 @@ end
 
 local function DrawText3D(x, y, z, text)
 	SetTextScale(0.35, 0.35)
-    SetTextFont(4)
+    SetTextFont(0)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
     SetTextEntry("STRING")
@@ -271,23 +271,6 @@ function TaxiGarage()
     }
     local authorizedVehicles = Config.AllowedVehicles[QBCore.Functions.GetPlayerData().job.grade.level]
     local grantedVeh = Config.AllowedVehicles[-1]
-    for i=1, #authorizedVehicles, 1 do
-        if GetDisplayNameFromVehicleModel(authorizedVehicles[i]) ~= nil then
-            label = GetLabelText(GetDisplayNameFromVehicleModel(authorizedVehicles[i]))
-        else
-            label = QBCore.Shared.Vehicles[authorizedVehicles[i]].name
-        end
-        vehicleMenu[#vehicleMenu+1] = {
-            header = label,
-            txt = "",
-            params = {
-                event = "qb-taxi:client:TakeVehicle",
-                args = {
-                    model = authorizedVehicles[i],
-                }
-            }
-        }
-    end
     for i=1, #grantedVeh, 1 do
         if GetDisplayNameFromVehicleModel(grantedVeh[i]) ~= nil then
             label = GetLabelText(GetDisplayNameFromVehicleModel(grantedVeh[i]))
@@ -301,6 +284,23 @@ function TaxiGarage()
                 event = "qb-taxi:client:TakeVehicle",
                 args = {
                     model = grantedVeh[i],
+                }
+            }
+        }
+    end
+    for i=1, #authorizedVehicles, 1 do
+        if GetDisplayNameFromVehicleModel(authorizedVehicles[i]) ~= nil then
+            label = GetLabelText(GetDisplayNameFromVehicleModel(authorizedVehicles[i]))
+        else
+            label = QBCore.Shared.Vehicles[authorizedVehicles[i]].name
+        end
+        vehicleMenu[#vehicleMenu+1] = {
+            header = label,
+            txt = "",
+            params = {
+                event = "qb-taxi:client:TakeVehicle",
+                args = {
+                    model = authorizedVehicles[i],
                 }
             }
         }
@@ -469,6 +469,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
 end)
 
 RegisterNetEvent('qb-taxi:client:toggleMeter', function()
+    print(123)
     local ped = PlayerPedId()
     if IsPedInAnyVehicle(ped, false) then
         if whitelistedVehicle() then
@@ -537,7 +538,7 @@ end)
 CreateThread(function()
     AddTextEntry('test', '測試 ~a~!')
 
-    for k,v in pairs(Config.Location) do
+    for k,v in pairs(Config.Locations) do
         local company = v.main
         TaxiBlip = AddBlipForCoord(company.coord)
         SetBlipSprite (TaxiBlip, 198)
@@ -545,7 +546,7 @@ CreateThread(function()
         SetBlipScale  (TaxiBlip, 0.6)
         SetBlipAsShortRange(TaxiBlip, true)
         SetBlipColour(TaxiBlip, 5)
-        BeginTextCommandSetBlipName("STRING")
+        BeginTextCommandSetBlipName("test")
         AddTextComponentSubstringPlayerName(company.name)
         EndTextCommandSetBlipName(TaxiBlip)
     end
@@ -588,7 +589,7 @@ CreateThread(function()
                 if Player.job.name == "taxi" then
                     local ped = PlayerPedId()
                     local pos = GetEntityCoords(ped)
-                    for k,v in pairs(Config.Location) do
+                    for k,v in pairs(Config.Locations) do
                         local company = v.main
                         local vehDist = #(pos - vector3(company.coord.x, company.coord.y, company.coord.z))
                         if vehDist < 30 then
@@ -795,9 +796,9 @@ function dropNpcPoly()
 end
 
 function setupCabParkingLocation()
-    for k,v in pairs(Config.Location) do
-        local parkzone = Config.Location[k]['parking']
-        for i=1 #parkzone do
+    for k,v in pairs(Config.Locations) do
+        local parkzone = Config.Locations[k]['parking']
+        for i=1, #parkzone do
             local taxiParking = BoxZone:Create(vector3(parkzone[i].coord), parkzone[i].length, parkzone[i].width, {
                 name = "qb-taxi"..i,
                 heading = parkzone[i].heading,
