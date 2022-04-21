@@ -4,11 +4,11 @@ game 'gta5'
 description 'QB-TaxiJob'
 version '1.0.0'
 
-ui_page 'html/meter.html'
+ui_page 'html/meter-tc.html'
 
 shared_scripts {
 	'@qb-core/shared/locale.lua',
-	'locales/en.lua', -- Change to the language you want to use
+	'locales/tc.lua', -- Change to the language you want to use
 	'config.lua',
 }
 

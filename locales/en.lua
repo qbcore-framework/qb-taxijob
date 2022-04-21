@@ -14,6 +14,7 @@ local Translations = {
         ["go_to_location"] = "Bring The NPC To The Specified Location", 
         ["vehicle_parking"] = "[E] Vehicle Parking", 
         ["job_vehicles"] = "[E] Job Vehicles",
+        ["request_vehicles"] = "🚕 Request Taxi Cab",
         ["drop_off_npc"] = "[E] Drop Off NPC",
         ["call_npc"] = "[E] Call NPC",
         ["blip_name"] = "Downtown Cab",

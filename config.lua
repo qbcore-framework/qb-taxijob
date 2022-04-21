@@ -7,7 +7,24 @@ Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 Config.DefaultTextLocation = "left" -- left, right, top
 
 Config.AllowedVehicles = {
-   [1] = {model = "taxi", label = Lang:t("info.taxi_label_1")},
+    [-1] = { -- 全等級通用
+        "taxi", -- 模型名稱
+    },
+    [0] = {
+        "taxi",
+    },
+    [1] = {
+        "taxi",
+    },
+    [2] = {
+        "taxi",
+    },
+    [3] = {
+        "taxi",
+    },
+    [4] = {
+        "taxi",
+    },
 }
 
 Config.Meter = {
@@ -16,7 +33,32 @@ Config.Meter = {
 
 Config.BossMenu = vector3(903.32, -170.55, 74.0)
 
-Config.Location = vector4(909.5, -177.35, 74.22, 238.5)
+Config.Locations = {
+    Downtown = {
+        main = { --圖標位置
+            coord = vector4(909.5, -177.35, 74.22, 238.5),
+            name = '計程車',
+        },
+        take_taxi = {
+            {
+                model = 'a_m_m_indian_01',
+                coord = vector4(901.34, -170.06, 74.08, 228.81),
+                animDict = 'abigail_mcs_1_concat-0',
+                anim = 'csb_abigail_dual-0',
+                flag = 1,
+                scenario = 'WORLD_HUMAN_AA_COFFEE',
+            },            
+        },
+        parking = {
+            {
+                coord = vector3(908.62, -173.82, 74.51),
+                length = 11.0,
+                width = 38.2,
+                heading = 55,
+            },
+        },
+    }
+},
 
 Config.NPCLocations = {
     TakeLocations = {
@@ -122,7 +164,7 @@ Config.PZLocations = {
             maxZ=28.47
         },
         [7] = {
-              coord = vector3(-1048.72, -2714.2, 13.76),
+            coord = vector3(-1048.72, -2714.2, 13.76),
             height = 17.6,
             width = 4.2,
             heading=240,

@@ -6,6 +6,7 @@ local meterActive = false
 local lastLocation = nil
 
 local PlayerJob = {}
+local parkingZones = {}
 
 local taxiPed = nil
 
@@ -93,9 +94,16 @@ local function whitelistedVehicle()
     local ped = PlayerPedId()
     local veh = GetEntityModel(GetVehiclePedIsIn(ped))
     local retval = false
+    local AuthorizedVehicles = Config.AllowedVehicles[QBCore.Functions.GetPlayerData().job.grade.level]
+    local AuthorizedVehicles2 = Config.AllowedVehicles[-1]
+    for i=1, #AuthorizedVehicles do
+        if veh == GetHashKey(AuthorizedVehicles[i]) then
+            retval = true
+        end
+    end
 
-    for i = 1, #Config.AllowedVehicles, 1 do
-        if veh == GetHashKey(Config.AllowedVehicles[i].model) then
+    for i=1, #AuthorizedVehicles2 do
+        if veh == GetHashKey(AuthorizedVehicles2[i]) then
             retval = true
         end
     end
@@ -261,6 +269,43 @@ function TaxiGarage()
             isMenuHeader = true
         }
     }
+    local authorizedVehicles = Config.AllowedVehicles[QBCore.Functions.GetPlayerData().job.grade.level]
+    local grantedVeh = Config.AllowedVehicles[-1]
+    for i=1, #authorizedVehicles, 1 do
+        if GetDisplayNameFromVehicleModel(authorizedVehicles[i]) ~= nil then
+            label = GetLabelText(GetDisplayNameFromVehicleModel(authorizedVehicles[i]))
+        else
+            label = QBCore.Shared.Vehicles[authorizedVehicles[i]].name
+        end
+        vehicleMenu[#vehicleMenu+1] = {
+            header = label,
+            txt = "",
+            params = {
+                event = "qb-taxi:client:TakeVehicle",
+                args = {
+                    model = authorizedVehicles[i],
+                }
+            }
+        }
+    end
+    for i=1, #grantedVeh, 1 do
+        if GetDisplayNameFromVehicleModel(grantedVeh[i]) ~= nil then
+            label = GetLabelText(GetDisplayNameFromVehicleModel(grantedVeh[i]))
+        else
+            label = QBCore.Shared.Vehicles[grantedVeh[i]].name
+        end
+        vehicleMenu[#vehicleMenu+1] = {
+            header = label,
+            txt = "",
+            params = {
+                event = "qb-taxi:client:TakeVehicle",
+                args = {
+                    model = grantedVeh[i],
+                }
+            }
+        }
+    end
+    --[[
     for veh, v in pairs(Config.AllowedVehicles) do
         vehicleMenu[#vehicleMenu+1] = {
             header = v.label,
@@ -272,6 +317,7 @@ function TaxiGarage()
             }
         }
     end
+    ]]
     -- qb-bossmenu:client:openMenu
     if PlayerJob.name == "taxi" and PlayerJob.isboss and Config.UseTarget then
         vehicleMenu[#vehicleMenu+1] = {
@@ -489,15 +535,20 @@ end)
 
 -- Threads
 CreateThread(function()
-    TaxiBlip = AddBlipForCoord(Config.Location)
-    SetBlipSprite (TaxiBlip, 198)
-    SetBlipDisplay(TaxiBlip, 4)
-    SetBlipScale  (TaxiBlip, 0.6)
-    SetBlipAsShortRange(TaxiBlip, true)
-    SetBlipColour(TaxiBlip, 5)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(Lang:t("info.blip_name"))
-    EndTextCommandSetBlipName(TaxiBlip)
+    AddTextEntry('test', '測試 ~a~!')
+
+    for k,v in pairs(Config.Location) do
+        local company = v.main
+        TaxiBlip = AddBlipForCoord(company.coord)
+        SetBlipSprite (TaxiBlip, 198)
+        SetBlipDisplay(TaxiBlip, 4)
+        SetBlipScale  (TaxiBlip, 0.6)
+        SetBlipAsShortRange(TaxiBlip, true)
+        SetBlipColour(TaxiBlip, 5)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(company.name)
+        EndTextCommandSetBlipName(TaxiBlip)
+    end
 end)
 
 CreateThread(function()
@@ -537,22 +588,25 @@ CreateThread(function()
                 if Player.job.name == "taxi" then
                     local ped = PlayerPedId()
                     local pos = GetEntityCoords(ped)
-                    local vehDist = #(pos - vector3(Config.Location.x, Config.Location.y, Config.Location.z))
-                    if vehDist < 30 then
-                        inRange = true
-                        DrawMarker(2, Config.Location.x, Config.Location.y, Config.Location.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
-                        if vehDist < 1.5 then
-                            if whitelistedVehicle() then
-                                DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, Lang:t("info.vehicle_parking"))
-                                if IsControlJustReleased(0, 38) then
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                    for k,v in pairs(Config.Location) do
+                        local company = v.main
+                        local vehDist = #(pos - vector3(company.coord.x, company.coord.y, company.coord.z))
+                        if vehDist < 30 then
+                            inRange = true
+                            DrawMarker(2, company.coord.x, company.coord.y, company.coord.z, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3, 0.5, 0.2, 200, 0, 0, 222, false, false, false, true, false, false, false)
+                            if vehDist < 1.5 then
+                                if whitelistedVehicle() then
+                                    DrawText3D(company.coord.x, company.coord.y, company.coord.z + 0.3, Lang:t("info.vehicle_parking"))
+                                    if IsControlJustReleased(0, 38) then
+                                        if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                            DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                                        end
                                     end
-                                end
-                            else
-                                DrawText3D(Config.Location.x, Config.Location.y, Config.Location.z + 0.3, Lang:t("info.job_vehicles"))
-                                if IsControlJustReleased(0, 38) then
-                                    TaxiGarage()
+                                else
+                                    DrawText3D(company.coord.x, company.coord.y, company.coord.z + 0.3, Lang:t("info.job_vehicles"))
+                                    if IsControlJustReleased(0, 38) then
+                                        TaxiGarage()
+                                    end
                                 end
                             end
                         end
@@ -572,32 +626,37 @@ end)
 -- setup qb-target
 function setupTarget()
     CreateThread(function()
-        exports['qb-target']:SpawnPed({
-            model = 'a_m_m_indian_01',
-            coords = vector4(901.34, -170.06, 74.08, 228.81),
-            minusOne = true,
-            freeze = true,
-            invincible = true,
-            blockevents = true,
-            animDict = 'abigail_mcs_1_concat-0',
-            anim = 'csb_abigail_dual-0',
-            flag = 1,
-            scenario = 'WORLD_HUMAN_AA_COFFEE',
-            target = {
-                options = {
-                    {
-                        type = "client",
-                        event = "qb-taxijob:client:requestcab",
-                        icon = "fas fa-sign-in-alt",
-                        label = '🚕 Request Taxi Cab',
-                        job = "taxi",
-                    }
-                },
-            distance = 2.5,
-            },
-            spawnNow = true,
-            currentpednumber = 0,
-          })
+        for k,v in pairs(Config.Locations) do
+            local taxiPoint = Config.Locations[k]['take_taxi']
+            for i=1, #taxiPoint do
+                exports['qb-target']:SpawnPed({
+                    model = taxiPoint[i].model,
+                    coords = taxiPoint[i].coord,
+                    minusOne = true,
+                    freeze = true,
+                    invincible = true,
+                    blockevents = true,
+                    animDict = taxiPoint[i].animDict,
+                    anim = taxiPoint[i].anim,
+                    flag = taxiPoint[i].flag,
+                    scenario = taxiPoint[i].scenario,
+                    target = {
+                        options = {
+                            {
+                                type = "client",
+                                event = "qb-taxijob:client:requestcab",
+                                icon = "fas fa-sign-in-alt",
+                                label = Lang:t('info.request_vehicles'),
+                                job = "taxi",
+                            }
+                        },
+                    distance = 2.5,
+                    },
+                    spawnNow = true,
+                    currentpednumber = 0,
+                })
+            end
+        end
     end)
 end
 
@@ -736,26 +795,32 @@ function dropNpcPoly()
 end
 
 function setupCabParkingLocation()
-    local taxiParking = BoxZone:Create(vector3(908.62, -173.82, 74.51), 11.0, 38.2, {
-        name="qb-taxi",
-        heading=55,
-        --debugPoly=true
-    })
+    for k,v in pairs(Config.Location) do
+        local parkzone = Config.Location[k]['parking']
+        for i=1 #parkzone do
+            local taxiParking = BoxZone:Create(vector3(parkzone[i].coord), parkzone[i].length, parkzone[i].width, {
+                name = "qb-taxi"..i,
+                heading = parkzone[i].heading,
+                --debugPoly=true
+            })
 
-    taxiParking:onPlayerInOut(function(isPlayerInside)
-        if isPlayerInside and not Notified and Config.UseTarget then
-            if whitelistedVehicle() then
-                exports['qb-core']:DrawText(Lang:t("info.vehicle_parking"), Config.DefaultTextLocation)
-                Notified = true
-                isPlayerInsideZone = true
-            end
-        else
-            exports['qb-core']:HideText()
-            Notified = false
-            isPlayerInsideZone = false
+            parkingZones[i] = taxiParking
+
+            taxiParking:onPlayerInOut(function(isPlayerInside)
+                if isPlayerInside and not Notified and Config.UseTarget then
+                    if whitelistedVehicle() then
+                        exports['qb-core']:DrawText(Lang:t("info.vehicle_parking"), Config.DefaultTextLocation)
+                        Notified = true
+                        isPlayerInsideZone = true
+                    end
+                else
+                    exports['qb-core']:HideText()
+                    Notified = false
+                    isPlayerInsideZone = false
+                end
+            end)
         end
-    end)
-
+    end
 end
 -- thread to handle vehicle parking
 CreateThread(function()
