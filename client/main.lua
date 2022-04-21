@@ -536,7 +536,6 @@ end)
 
 -- Threads
 CreateThread(function()
-    AddTextEntry('test', '測試 ~a~!')
 
     for k,v in pairs(Config.Locations) do
         local company = v.main
@@ -546,7 +545,7 @@ CreateThread(function()
         SetBlipScale  (TaxiBlip, 0.6)
         SetBlipAsShortRange(TaxiBlip, true)
         SetBlipColour(TaxiBlip, 5)
-        BeginTextCommandSetBlipName("test")
+        BeginTextCommandSetBlipName("STRING")
         AddTextComponentSubstringPlayerName(company.name)
         EndTextCommandSetBlipName(TaxiBlip)
     end
