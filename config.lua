@@ -216,7 +216,7 @@ Config.PZLocations = {
     DropLocations = {
         [1] = {
             coord = vector3(-1073.21, -265.35, 37.35),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=296,
             --debugPoly=true,
@@ -225,7 +225,7 @@ Config.PZLocations = {
         },
         [2] = {
             coord = vector3(-1411.45, -590.98, 29.99),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=299,
             --debugPoly=true,
@@ -234,7 +234,7 @@ Config.PZLocations = {
         },
         [3] = {
             coord = vector3(-678.68, -845.54, 23.53),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=269,
             --debugPoly=true,
@@ -243,7 +243,7 @@ Config.PZLocations = {
         },
         [4] = {
             coord = vector3(-159.11, -1565.46, 34.69),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=321,
             --debugPoly=true,
@@ -252,7 +252,7 @@ Config.PZLocations = {
         },
         [5] = {
             coord = vector3(442.12, -1685.31, 28.85),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=321,
             --debugPoly=true,
@@ -261,7 +261,7 @@ Config.PZLocations = {
         },
         [6] = {
             coord = vector3(1120.51, -958.97, 46.83),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=286,
             --debugPoly=true,
@@ -270,7 +270,7 @@ Config.PZLocations = {
         },
         [7] = {
             coord = vector3(1240.79, -377.77, 68.61),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=249,
             --debugPoly=true,
@@ -279,7 +279,7 @@ Config.PZLocations = {
         },
         [8] = {
             coord = vector3(923.66, -2226.07, 29.98),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=354,
             --debugPoly=true,
@@ -288,7 +288,7 @@ Config.PZLocations = {
         },
         [9] = {
             coord = vector3(1920.15, 3701.6, 32.26),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=299,
             --debugPoly=true,
@@ -297,7 +297,7 @@ Config.PZLocations = {
         },
         [10] = {
             coord = vector3(1661.91, 4875.87, 41.66),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=8,
             --debugPoly=true,
@@ -306,7 +306,7 @@ Config.PZLocations = {
         },
         [11] = {
             coord = vector3(-9.46, 6529.92, 30.95),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=314,
             --debugPoly=true,
@@ -315,7 +315,7 @@ Config.PZLocations = {
         },
         [12] = {
             coord = vector3(-3233.12, 1010.33, 11.72),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=357,
             --debugPoly=true,
@@ -324,7 +324,7 @@ Config.PZLocations = {
         },
         [13] = {
             coord = vector3(-1604.11, -401.71, 41.95),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=322,
             --debugPoly=true,
@@ -333,7 +333,7 @@ Config.PZLocations = {
         },
         [14] = {
             coord = vector3(-586.48, -255.96, 36.53),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=31,
             --debugPoly=true,
@@ -342,7 +342,7 @@ Config.PZLocations = {
         },
         [15] = {
             coord = vector3(23.51, -60.47, 63.2),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=156,
             --debugPoly=true,
@@ -351,7 +351,7 @@ Config.PZLocations = {
         },
         [16] = {
             coord = vector3(550.26, 172.54, 99.71),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=161,
             --debugPoly=true,
@@ -360,7 +360,7 @@ Config.PZLocations = {
         },
         [17] = {
             coord = vector3(-1048.62, -2540.53, 13.3),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=151,
             --debugPoly=true,
@@ -369,7 +369,7 @@ Config.PZLocations = {
         },
         [18] = {
             coord = vector3(-10.06, -544.39, 38.28),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=91,
             --debugPoly=true,
@@ -378,7 +378,7 @@ Config.PZLocations = {
         },
         [19] = {
             coord = vector3(-7.91, -258.19, 46.49),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=71,
             --debugPoly=true,
@@ -387,7 +387,7 @@ Config.PZLocations = {
         },
         [20] = {
             coord = vector3(-743.03, 818.9, 213.16),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=38,
             --debugPoly=true,
@@ -396,7 +396,7 @@ Config.PZLocations = {
         },
         [21] = {
             coord = vector3(218.25, 677.55, 188.87),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=163,
             --debugPoly=true,
@@ -405,7 +405,7 @@ Config.PZLocations = {
         },
         [22] = {
             coord = vector3(264.47, 1138.41, 221.36),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=203,
             --debugPoly=true,
@@ -414,7 +414,7 @@ Config.PZLocations = {
         },
         [23] = {
             coord = vector3(220.47, -1010.7, 28.82),
-            height = 21.2, 
+            height = 21.2,
             width = 4.2,
             heading=158,
             --debugPoly=true,
