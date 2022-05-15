@@ -4,10 +4,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local meterIsOpen = false
 local meterActive = false
 local lastLocation = nil
+local mouseActive = false
 
 local PlayerJob = {}
-
-local taxiPed = nil
 
 -- used for polyzones
 local isInsidePickupZone = false
@@ -171,9 +170,9 @@ local function GetDeliveryLocation()
                             if NpcData.DeliveryBlip ~= nil then
                                 RemoveBlip(NpcData.DeliveryBlip)
                             end
-                            local RemovePed = function(ped)
+                            local RemovePed = function(p)
                                 SetTimeout(60000, function()
-                                    DeletePed(ped)
+                                    DeletePed(p)
                                 end)
                             end
                             RemovePed(NpcData.Npc)
@@ -207,7 +206,7 @@ local function EnumerateEntitiesWithinDistance(entities, isPlayerEntities, coord
 end
 
 local function GetVehiclesInArea(coords, maxDistance) -- Vehicle inspection in designated area
-	return EnumerateEntitiesWithinDistance(GetGamePool('CVehicle'), false, coords, maxDistance) 
+	return EnumerateEntitiesWithinDistance(GetGamePool('CVehicle'), false, coords, maxDistance)
 end
 
 local function IsSpawnPointClear(coords, maxDistance) -- Check the spawn point to see if it's empty or not:
@@ -241,7 +240,7 @@ local function calculateFareAmount()
 
             meterData['distanceTraveled'] += newDistance
 
-            fareAmount = (meterData['distanceTraveled'] / 400.00) * meterData['fareAmount']
+            local fareAmount = (meterData['distanceTraveled'] / 400.00) * meterData['fareAmount']
             meterData['currentFare'] = math.ceil(fareAmount)
 
             SendNUIMessage({
@@ -261,7 +260,7 @@ function TaxiGarage()
             isMenuHeader = true
         }
     }
-    for veh, v in pairs(Config.AllowedVehicles) do
+    for _, v in pairs(Config.AllowedVehicles) do
         vehicleMenu[#vehicleMenu+1] = {
             header = v.label,
             params = {
@@ -489,7 +488,7 @@ end)
 
 -- Threads
 CreateThread(function()
-    TaxiBlip = AddBlipForCoord(Config.Location)
+    local TaxiBlip = AddBlipForCoord(Config.Location)
     SetBlipSprite (TaxiBlip, 198)
     SetBlipDisplay(TaxiBlip, 4)
     SetBlipScale  (TaxiBlip, 0.6)
@@ -531,7 +530,7 @@ end)
 CreateThread(function()
     while true do
         if not Config.UseTarget then
-            inRange = false
+            local inRange = false
             if LocalPlayer.state.isLoggedIn then
                 local Player = QBCore.Functions.GetPlayerData()
                 if Player.job.name == "taxi" then
@@ -601,6 +600,9 @@ function setupTarget()
     end)
 end
 
+local zone
+local delieveryZone
+
 function createNpcPickUpLocation()
     zone = BoxZone:Create(Config.PZLocations.TakeLocations[NpcData.CurrentNpc].coord, Config.PZLocations.TakeLocations[NpcData.CurrentNpc].height, Config.PZLocations.TakeLocations[NpcData.CurrentNpc].width, {
         heading = Config.PZLocations.TakeLocations[NpcData.CurrentNpc].heading,
@@ -648,9 +650,6 @@ function callNpcPoly()
     CreateThread(function()
         while not NpcData.NpcTaken do
             local ped = PlayerPedId()
-            local pos = GetEntityCoords(ped)
-            local dist = #(pos - vector3(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z))
-
             if isInsidePickupZone then
                 if IsControlJustPressed(0, 38) then
                     exports['qb-core']:KeyPressed()
@@ -718,9 +717,9 @@ function dropNpcPoly()
                     if NpcData.DeliveryBlip ~= nil then
                         RemoveBlip(NpcData.DeliveryBlip)
                     end
-                    local RemovePed = function(ped)
+                    local RemovePed = function(p)
                         SetTimeout(60000, function()
-                            DeletePed(ped)
+                            DeletePed(p)
                         end)
                     end
                     RemovePed(NpcData.Npc)
@@ -784,6 +783,7 @@ end)
 -- switched boss menu from qb-bossmenu to taxijob
 CreateThread(function()
     while true do
+        local sleep = 1000
         if PlayerJob.name == "taxi" and PlayerJob.isboss and not Config.UseTarget then
             local pos = GetEntityCoords(PlayerPedId())
             if #(pos - Config.BossMenu) < 2.0 then
