@@ -1,6 +1,6 @@
 let meterStarted = false;
 
-const updateMeter = () => {
+const updateMeter = (meterData) => {
   $("#total-price").html("$ " + meterData.currentFare.toFixed(2));
   $("#total-distance").html(
     (meterData.distanceTraveled / 200).toFixed(1) + " mi"
