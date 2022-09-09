@@ -16,12 +16,15 @@ local Translations = {
         ["job_vehicles"] = "[E] Vehicules disponibles",
         ["drop_off_npc"] = "[E] Déposer le client",
         ["call_npc"] = "[E] Appeler le client",
-        ["blip_name"] = "Taxi du centre-ville",
+        ["blip_name"] = "Downtown Cab Co.",
         ["taxi_label_1"] = "Taxi Standard",
+        ["no_spawn_point"] = "Impossible de trouver un emplacement pour amener le taxi",
+        ["taxi_returned"] = "Taxi Garé"
     },
     menu = {
-        ["taxi_menu_header"] = "Taxis",
+        ["taxi_menu_header"] = "Taxi",
         ["close_menu"] = "⬅ Fermer le menu",
+        ['boss_menu'] = "Menu Boss"
     }
 }
 Lang = Locale:new({
