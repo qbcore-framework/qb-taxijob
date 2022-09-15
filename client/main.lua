@@ -228,7 +228,7 @@ local function calculateFareAmount()
             meterData['distanceTraveled'] += (newDistance/1609)
 
             local fareAmount = ((meterData['distanceTraveled'])*Config.Meter["defaultPrice"])+Config.Meter["startingPrice"]
-            meterData['currentFare'] = math.ceil(fareAmount)
+            meterData['currentFare'] = math.floor(fareAmount)
 
             SendNUIMessage({
                 action = "updateMeter",
