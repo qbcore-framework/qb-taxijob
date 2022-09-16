@@ -48,19 +48,6 @@ RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerJob = JobInfo
 end)
 
-
--- AddEventHandler('onResourceStart', function(resourceName)
---     if GetCurrentResourceName() ~= resourceName then return end
---     Wait(2000)
---     if Config.UseTarget then
---         setupTarget()
---         setupCabParkingLocation()
---     end
---     PlayerJob = QBCore.Functions.GetPlayerData().job
--- end)
-
-
-
 -- Functions
 
 local function ResetNpcTask()
@@ -236,10 +223,10 @@ local function calculateFareAmount()
             local newDistance = #(startPos - newPos)
             lastLocation = newPos
 
-            meterData['distanceTraveled'] += newDistance
+            meterData['distanceTraveled'] += (newDistance/1609)
 
-            local fareAmount = (meterData['distanceTraveled'] / 400.00) * meterData['fareAmount']
-            meterData['currentFare'] = math.ceil(fareAmount)
+            local fareAmount = ((meterData['distanceTraveled'])*Config.Meter["defaultPrice"])+Config.Meter["startingPrice"]
+            meterData['currentFare'] = math.floor(fareAmount)
 
             SendNUIMessage({
                 action = "updateMeter",
@@ -296,7 +283,8 @@ RegisterNetEvent("qb-taxi:client:TakeVehicle", function(data)
         local coords = vector3(Config.CabSpawns[SpawnPoint].x,Config.CabSpawns[SpawnPoint].y,Config.CabSpawns[SpawnPoint].z)
         local CanSpawn = IsSpawnPointClear(coords, 2.0)
         if CanSpawn then
-            QBCore.Functions.SpawnVehicle(data.model, function(veh)
+            QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
+                local veh = NetToVeh(netId)
                 SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
                 exports['LegacyFuel']:SetFuel(veh, 100.0)
                 closeMenuFull()
@@ -304,7 +292,7 @@ RegisterNetEvent("qb-taxi:client:TakeVehicle", function(data)
                 TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
                 TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
                 SetVehicleEngineOn(veh, true, true)
-            end, coords, true)
+            end, data.model, coords, true)
         else
             QBCore.Functions.Notify(Lang:t("info.no_spawn_point"), "error")
         end
