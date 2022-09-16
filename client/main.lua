@@ -36,8 +36,7 @@ local NpcData = {
 }
 
 -- events
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerJob = QBCore.Functions.GetPlayerData().job
     if Config.UseTarget then
         setupTarget()
@@ -45,8 +44,7 @@ AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     end
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate')
-AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerJob = JobInfo
 end)
 
@@ -507,8 +505,7 @@ CreateThread(function()
     end
 end)
 
-RegisterNetEvent('qb-taxijob:client:requestcab')
-AddEventHandler('qb-taxijob:client:requestcab', function()
+RegisterNetEvent('qb-taxijob:client:requestcab', function()
     TaxiGarage()
 end)
 
