@@ -27,7 +27,8 @@ local Translations = {
         ['boss_menu'] = "Boss Menu"
     }
 }
-Lang = Locale:new({
+
+Lang = Lang or Locale:new({
     phrases = Translations,
-    warnOnMissing = true,
+    warnOnMissing = true
 })

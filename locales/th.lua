@@ -27,7 +27,11 @@ local Translations = {
         ['boss_menu'] = "เมนูผู้นำ"
     }
 }
-Lang = Locale:new({
-    phrases = Translations,
-    warnOnMissing = true,
-})
+
+if GetConvar('qb_locale', 'en') == 'th' then
+    Lang = Locale:new({
+        phrases = Translations,
+        warnOnMissing = true,
+        fallbackLang = Lang,
+    })
+end

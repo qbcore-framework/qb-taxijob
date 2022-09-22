@@ -8,7 +8,8 @@ ui_page 'html/meter.html'
 
 shared_scripts {
 	'@qb-core/shared/locale.lua',
-	'locales/en.lua', -- Change to the language you want to use
+	'locales/en.lua',
+    'locales/*.lua',
 	'config.lua',
 }
 
