@@ -16,7 +16,7 @@ local Translations = {
         ["job_vehicles"] = "[E] Vehículos de trabajo",
         ["drop_off_npc"] = "[E] Bajar NPC",
         ["call_npc"] = "[E] Llamar NPC",
-        ["blip_name"] = "Taxi downtown",
+        ["blip_name"] = "Taxi del centro",
         ["taxi_label_1"] = "Taxi estándar",
         ["no_spawn_point"] = "No es posible encontrar una ubicación para traer el taxi",
         ["taxi_returned"] = "Taxi estacionado"
@@ -27,7 +27,11 @@ local Translations = {
         ['boss_menu'] = "Menú de jefe"
     }
 }
-Lang = Locale:new({
-    phrases = Translations,
-    warnOnMissing = true,
-})
+
+if GetConvar('qb_locale', 'en') == 'es' then
+    Lang = Locale:new({
+        phrases = Translations,
+        warnOnMissing = true,
+        fallbackLang = Lang,
+    })
+end
