@@ -332,7 +332,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
             end
             QBCore.Functions.Notify(Lang:t("info.npc_on_gps"), 'success')
 
-           -- added checks to disable distance checking if polyzone option is used
+            -- added checks to disable distance checking if polyzone option is used
             if Config.UseTarget then
                 createNpcPickUpLocation()
             end
@@ -345,67 +345,65 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
             NpcData.Active = true
 
             -- added checks to disable distance checking if polyzone option is used
-           if not Config.UseTarget then
-            CreateThread(function()
-                while not NpcData.NpcTaken do
+            if not Config.UseTarget then
+                CreateThread(function()
+                    while not NpcData.NpcTaken do
 
-                    local ped = PlayerPedId()
-                    local pos = GetEntityCoords(ped)
-                    local dist = #(pos - vector3(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z))
+                        local ped = PlayerPedId()
+                        local pos = GetEntityCoords(ped)
+                        local dist = #(pos - vector3(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z))
 
-                    if dist < 20 then
-                        DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                        if dist < 20 then
+                            DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
 
-                        if dist < 5 then
-                            DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, Lang:t("info.call_npc"))
-                            if IsControlJustPressed(0, 38) then
-                                local veh = GetVehiclePedIsIn(ped, 0)
-                                local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
+                            if dist < 5 then
+                                DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, Lang:t("info.call_npc"))
+                                if IsControlJustPressed(0, 38) then
+                                    local veh = GetVehiclePedIsIn(ped, 0)
+                                    local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
 
-                                for i=maxSeats - 1, 0, -1 do
-                                    if IsVehicleSeatFree(veh, i) then
-                                        freeSeat = i
-                                        break
+                                    for i=maxSeats - 1, 0, -1 do
+                                        if IsVehicleSeatFree(veh, i) then
+                                            freeSeat = i
+                                            break
+                                        end
                                     end
-                                end
 
-                                meterIsOpen = true
-                                -- meterActive = true
-                                lastLocation = GetEntityCoords(PlayerPedId())
-                                SendNUIMessage({
-                                    action = "openMeter",
-                                    toggle = true,
-                                    meterData = Config.Meter
-                                })
-                                if not meterActive then 
+                                    meterIsOpen = true
+                                    -- meterActive = true
+                                    lastLocation = GetEntityCoords(PlayerPedId())
                                     SendNUIMessage({
-                                        action = "toggleMeter"
+                                        action = "openMeter",
+                                        toggle = true,
+                                        meterData = Config.Meter
                                     })
-                                else
-                                    resetMeter()
-                                    SendNUIMessage({
-                                        action = "resetMeter"
-                                    })
-                                end                               
-                                ClearPedTasksImmediately(NpcData.Npc)
-                                FreezeEntityPosition(NpcData.Npc, false)
-                                TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
-                                QBCore.Functions.Notify(Lang:t("info.go_to_location"))
-                                if NpcData.NpcBlip ~= nil then
-                                    RemoveBlip(NpcData.NpcBlip)
+                                    if not meterActive then 
+                                        SendNUIMessage({
+                                            action = "toggleMeter"
+                                        })
+                                    else
+                                        resetMeter()
+                                        SendNUIMessage({
+                                            action = "resetMeter"
+                                        })
+                                    end                               
+                                    ClearPedTasksImmediately(NpcData.Npc)
+                                    FreezeEntityPosition(NpcData.Npc, false)
+                                    TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                                    QBCore.Functions.Notify(Lang:t("info.go_to_location"))
+                                    if NpcData.NpcBlip ~= nil then
+                                        RemoveBlip(NpcData.NpcBlip)
+                                    end
+                                    GetDeliveryLocation()
+                                    NpcData.NpcTaken = true
                                 end
-                                GetDeliveryLocation()
-                                NpcData.NpcTaken = true
                             end
                         end
+
+                        Wait(1)
                     end
-
-                    Wait(1)
-                end
-            end)
-
-
-           end
+                end)
+            end
         else
             QBCore.Functions.Notify(Lang:t("error.already_mission"))
         end
