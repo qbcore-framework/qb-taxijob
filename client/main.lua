@@ -377,7 +377,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                                         toggle = true,
                                         meterData = Config.Meter
                                     })
-                                    if not meterActive then 
+                                    if not meterActive then
                                         SendNUIMessage({
                                             action = "toggleMeter"
                                         })
@@ -386,7 +386,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                                         SendNUIMessage({
                                             action = "resetMeter"
                                         })
-                                    end                               
+                                    end
                                     ClearPedTasksImmediately(NpcData.Npc)
                                     FreezeEntityPosition(NpcData.Npc, false)
                                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
@@ -584,7 +584,7 @@ function setupTarget()
             },
             spawnNow = true,
             currentpednumber = 0,
-          })
+        })
     end)
 end
 
@@ -659,7 +659,7 @@ function callNpcPoly()
                         toggle = true,
                         meterData = Config.Meter
                     })
-                    if not meterActive then 
+                    if not meterActive then
                         SendNUIMessage({
                             action = "toggleMeter"
                         })
