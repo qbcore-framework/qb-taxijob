@@ -147,7 +147,7 @@ local function GetDeliveryLocation()
                                 action = "toggleMeter"
                             })
                             TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
-                            meterActive = false
+                            -- meterActive = false -- COMMENTED BEC WE ACTUALLY SETTING IT IN THE NUI CALLBACK THAT IS TRIGGERED FROM THE toggleMeter Message
                             SendNUIMessage({
                                 action = "resetMeter"
                             })
@@ -370,16 +370,23 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                                 end
 
                                 meterIsOpen = true
-                                meterActive = true
+                                -- meterActive = true
                                 lastLocation = GetEntityCoords(PlayerPedId())
                                 SendNUIMessage({
                                     action = "openMeter",
                                     toggle = true,
                                     meterData = Config.Meter
                                 })
-                                SendNUIMessage({
-                                    action = "toggleMeter"
-                                })
+                                if not meterActive then 
+                                    SendNUIMessage({
+                                        action = "toggleMeter"
+                                    })
+                                else
+                                    resetMeter()
+                                    SendNUIMessage({
+                                        action = "resetMeter"
+                                    })
+                                end                               
                                 ClearPedTasksImmediately(NpcData.Npc)
                                 FreezeEntityPosition(NpcData.Npc, false)
                                 TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
@@ -647,16 +654,24 @@ function callNpcPoly()
                     end
 
                     meterIsOpen = true
-                    meterActive = true
+                    -- meterActive = true
                     lastLocation = GetEntityCoords(PlayerPedId())
                     SendNUIMessage({
                         action = "openMeter",
                         toggle = true,
                         meterData = Config.Meter
                     })
-                    SendNUIMessage({
-                        action = "toggleMeter"
-                    })
+                    if not meterActive then 
+                        SendNUIMessage({
+                            action = "toggleMeter"
+                        })
+                    else
+                        resetMeter()
+                        SendNUIMessage({
+                            action = "resetMeter"
+                        })
+                    end
+
                     ClearPedTasksImmediately(NpcData.Npc)
                     FreezeEntityPosition(NpcData.Npc, false)
                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
@@ -692,7 +707,7 @@ function dropNpcPoly()
                         action = "toggleMeter"
                     })
                     TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
-                    meterActive = false
+                    -- meterActive = false
                     SendNUIMessage({
                         action = "resetMeter"
                     })
@@ -750,7 +765,7 @@ CreateThread(function()
                     local vehicle = GetVehiclePedIsIn(ped, false)
                     if meterIsOpen then
                         TriggerEvent('qb-taxi:client:toggleMeter')
-                        meterActive = false
+                        -- meterActive = false
                     end
                     TaskLeaveVehicle(PlayerPedId(), vehicle, 0)
                     Wait(2000) -- 2 second delay just to ensure the player is out of the vehicle
@@ -773,7 +788,7 @@ CreateThread(function()
                 sleep = 7
                 DrawText3D(Config.BossMenu.x, Config.BossMenu.y,Config.BossMenu.z, "~g~E~w~ - Boss Menu")
                 if IsControlJustReleased(0, 38) then
-                   TriggerEvent('qb-bossmenu:client:OpenMenu')
+                    TriggerEvent('qb-bossmenu:client:OpenMenu')
                 end
             end
         end
