@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Du är inte i ett fordon",
         ["not_active_meter"] = "Taxametern är inte aktiv",
         ["no_meter_sight"] = "Ingen Taxameter i sikte",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "Passageraren släpptes av!",
         ["npc_on_gps"] = "NPC'n syns på din GPS",
@@ -18,10 +21,12 @@ local Translations = {
         ["call_npc"] = "[E] Ropa på NPC",
         ["blip_name"] = "Taxi",
         ["taxi_label_1"] = "Standard-bil",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Taxibilar",
-        ["close_menu"] = "⬅ Stäng meny",
+        ["close_menu"] = "⬅ Stäng meny"
     }
 }
 
