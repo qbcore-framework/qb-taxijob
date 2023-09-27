@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "คุณไม่ได้อยู่ในยานพาหนะ",
         ["not_active_meter"] = "มิเตอร์แท็กซี่ไม่ทำงาน",
         ["no_meter_sight"] = "ไม่มีมิเตอร์แท็กซี่ในระยะสายตา",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "ปล่อยคนลง",
         ["npc_on_gps"] = "มีการระบุ NPC บน GPS ของคุณ",
@@ -19,7 +22,9 @@ local Translations = {
         ["blip_name"] = "ดาวน์ทาวน์แค็บ",
         ["taxi_label_1"] = "แท็กซี่มาตรฐาน",
         ["no_spawn_point"] = "หาสถานที่ไปเอารถแท็กซี่ไม่ได้",
-        ["taxi_returned"] = "ที่จอดแท็กซี่"
+        ["taxi_returned"] = "ที่จอดแท็กซี่",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "รถแท็กซี่",

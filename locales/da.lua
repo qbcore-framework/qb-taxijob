@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Du er ikke i et køretøj",
         ["not_active_meter"] = "Taxameteret er ikke aktivt",
         ["no_meter_sight"] = "Intet taxameter at se",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "Personen blev sat af!",
         ["npc_on_gps"] = "En NPC er markeret på din GPS",
@@ -18,10 +21,12 @@ local Translations = {
         ["call_npc"] = "[E] Kald en NPC",
         ["blip_name"] = "Midtby taxa",
         ["taxi_label_1"] = "Standart taxa",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Taxa køretøjer",
-        ["close_menu"] = "⬅ Luk menuen",
+        ["close_menu"] = "⬅ Luk menuen"
     }
 }
 

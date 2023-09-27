@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Shoma Dar Vasile Nagliye Nist",
         ["not_active_meter"] = "Taxi Meter Faal Nist",
         ["no_meter_sight"] = "Taxi Meter Dar Maraze Did Nist",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "Mosafer Piyade Shod!",
         ["npc_on_gps"] = "NPC Dar GPS Shoma Neshan Dade Shode Ast",
@@ -18,10 +21,12 @@ local Translations = {
         ["call_npc"] = "[E] Darkhast NPC",
         ["blip_name"] = "Downtown Cab",
         ["taxi_label_1"] = "Taxi Mamuli",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "List Mashin heye Taxi",
-        ["close_menu"] = "⬅ Bastan Menu",
+        ["close_menu"] = "⬅ Bastan Menu"
     }
 }
 

@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Não estás num veículo",
         ["not_active_meter"] = "O taxímetro não se encontra activo",
         ["no_meter_sight"] = "Nenhum taxímetro à vista",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "O passageiro foi entregue!",
         ["npc_on_gps"] = "O NPC encontra-se indicado no teu GPS",
@@ -18,10 +21,12 @@ local Translations = {
         ["call_npc"] = "[E] Chamar NPC",
         ["blip_name"] = "Taxis da Baixa",
         ["taxi_label_1"] = "Taxi",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Veículos de Taxi",
-        ["close_menu"] = "⬅ Fechar Menu",
+        ["close_menu"] = "⬅ Fechar Menu"
     }
 }
 

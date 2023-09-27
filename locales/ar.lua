@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "أنت لست في سيارة",
         ["not_active_meter"] = "عداد سيارة الأجرة غير نشط",
         ["no_meter_sight"] = "لا يوجد عداد سيارات الأجرة في الأفق",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "تم إنزال الشخص",
         ["npc_on_gps"] = "تم الاشاة لك في الخريطة عن المكان",
@@ -18,6 +21,8 @@ local Translations = {
         ["call_npc"] = "[~g~E~w~] - ﺐﻛﺭﺍ",
         ["blip_name"] = "ﻲﺴﻛﺎﺘﻟﺍ ﺰﻛﺮﻣ",
         ["taxi_label_1"] = "تاكسي",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "سيارات التاكسي",

@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Vous n\'êtes pas dans un véhicule",
         ["not_active_meter"] = "Le taximètre n\'est pas activé",
         ["no_meter_sight"] = "Pas de taximètre en vue",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "La personne a été déposée!",
         ["npc_on_gps"] = "Le client est indiqué sur votre GPS!",
@@ -19,7 +22,9 @@ local Translations = {
         ["blip_name"] = "Downtown Cab Co.",
         ["taxi_label_1"] = "Taxi Standard",
         ["no_spawn_point"] = "Impossible de trouver un emplacement pour amener le taxi",
-        ["taxi_returned"] = "Taxi Garé"
+        ["taxi_returned"] = "Taxi Garé",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Taxi",
