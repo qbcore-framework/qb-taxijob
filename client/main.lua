@@ -32,7 +32,9 @@ local NpcData = {
     DeliveryBlip = nil,
     NpcTaken = false,
     NpcDelivered = false,
-    CountDown = 180
+    CountDown = 180,
+    startingLength = 0,
+    distanceLeft = 0
 }
 
 -- events
@@ -62,6 +64,8 @@ local function ResetNpcTask()
         DeliveryBlip = nil,
         NpcTaken = false,
         NpcDelivered = false,
+        startingLength = 0,
+        distanceLeft = 0
     }
 end
 
@@ -70,6 +74,8 @@ local function resetMeter()
         fareAmount = 6,
         currentFare = 0,
         distanceTraveled = 0,
+        startingLength = 0,
+        distanceLeft = 0
     }
 end
 
@@ -172,7 +178,6 @@ local function GetDeliveryLocation()
     end
 end
 
-
 local function EnumerateEntitiesWithinDistance(entities, isPlayerEntities, coords, maxDistance)
 	local nearbyEntities = {}
 	if coords then
@@ -216,22 +221,41 @@ local function getVehicleSpawnPoint()
 end
 
 local function calculateFareAmount()
-    if meterIsOpen and meterActive then
+    if meterIsOpen and meterActive and not NpcData.NpcTaken  then -- For RP purposes
         local startPos = lastLocation
         local newPos = GetEntityCoords(PlayerPedId())
         if startPos ~= newPos then
             local newDistance = #(startPos - newPos)
             lastLocation = newPos
-
             meterData['distanceTraveled'] += (newDistance/1609)
-
             local fareAmount = ((meterData['distanceTraveled'])*Config.Meter["defaultPrice"])+Config.Meter["startingPrice"]
             meterData['currentFare'] = math.floor(fareAmount)
-
             SendNUIMessage({
                 action = "updateMeter",
                 meterData = meterData
             })
+        end
+    end
+
+    if meterIsOpen and meterActive and NpcData.NpcTaken then
+        if DoesBlipHaveGpsRoute(NpcData.DeliveryBlip) then
+            local startPos = lastLocation
+            local newPos = GetEntityCoords(PlayerPedId())
+            if startPos ~= newPos then
+                lastLocation = newPos
+                if NpcData.startingLength == 0 then NpcData.startingLength = GetGpsBlipRouteLength() end -- initial length
+                NpcData.distanceLeft = GetGpsBlipRouteLength() -- refresh length as driving
+                if GetGpsBlipRouteLength() > NpcData.distanceLeft then return end -- check route length against previous route length
+                local distanceTraveled = NpcData.startingLength - NpcData.distanceLeft -- calculate route progress
+                if distanceTraveled < 0 then return end
+                meterData['distanceTraveled'] = (distanceTraveled/1609)
+                local fareAmount = ((meterData['distanceTraveled'])*Config.Meter["defaultPrice"])+Config.Meter["startingPrice"]
+                meterData['currentFare'] = math.floor(fareAmount)
+                SendNUIMessage({
+                    action = "updateMeter",
+                    meterData = meterData
+                })
+            end
         end
     end
 end
@@ -316,14 +340,11 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                     NpcData.CurrentNpc = math.random(1, #Config.NPCLocations.TakeLocations)
                 end
             end
-
             local Gender = math.random(1, #Config.NpcSkins)
             local PedSkin = math.random(1, #Config.NpcSkins[Gender])
             local model = GetHashKey(Config.NpcSkins[Gender][PedSkin])
             RequestModel(model)
-            while not HasModelLoaded(model) do
-                Wait(0)
-            end
+            while not HasModelLoaded(model) do Wait(0) end
             NpcData.Npc = CreatePed(3, model, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z - 0.98, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].w, false, true)
             PlaceObjectOnGroundProperly(NpcData.Npc)
             FreezeEntityPosition(NpcData.Npc, true)
@@ -333,9 +354,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
             QBCore.Functions.Notify(Lang:t("info.npc_on_gps"), 'success')
 
            -- added checks to disable distance checking if polyzone option is used
-            if Config.UseTarget then
-                createNpcPickUpLocation()
-            end
+            if Config.UseTarget then createNpcPickUpLocation() end
 
             NpcData.NpcBlip = AddBlipForCoord(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z)
             SetBlipColour(NpcData.NpcBlip, 3)
@@ -343,7 +362,6 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
             SetBlipRouteColour(NpcData.NpcBlip, 3)
             NpcData.LastNpc = NpcData.CurrentNpc
             NpcData.Active = true
-
             -- added checks to disable distance checking if polyzone option is used
            if not Config.UseTarget then
             CreateThread(function()
@@ -392,12 +410,9 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                             end
                         end
                     end
-
                     Wait(1)
                 end
             end)
-
-
            end
         else
             QBCore.Functions.Notify(Lang:t("error.already_mission"))
@@ -760,23 +775,5 @@ CreateThread(function()
             end
         end
         Wait(1)
-    end
-end)
-
--- switched boss menu from qb-bossmenu to taxijob
-CreateThread(function()
-    while true do
-        local sleep = 1000
-        if PlayerJob.name == "taxi" and PlayerJob.isboss and not Config.UseTarget then
-            local pos = GetEntityCoords(PlayerPedId())
-            if #(pos - Config.BossMenu) < 2.0 then
-                sleep = 7
-                DrawText3D(Config.BossMenu.x, Config.BossMenu.y,Config.BossMenu.z, "~g~E~w~ - Boss Menu")
-                if IsControlJustReleased(0, 38) then
-                   TriggerEvent('qb-bossmenu:client:OpenMenu')
-                end
-            end
-        end
-        Wait(sleep)
     end
 end)
