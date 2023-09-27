@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Je zit niet in een voertuig",
         ["not_active_meter"] = "De taximeter is niet actief",
         ["no_meter_sight"] = "Geen taximeter in zicht",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "Persoon is afgezet!",
         ["npc_on_gps"] = "De NPC wordt op je GPS aangegeven",
@@ -18,10 +21,12 @@ local Translations = {
         ["call_npc"] = "[E] NPC Roepen",
         ["blip_name"] = "Downtown Cab",
         ["taxi_label_1"] = "Standaard Cab",
-    },
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
+        },
     menu = {
         ["taxi_menu_header"] = "Taxi Voertuigen",
-        ["close_menu"] = "⬅ Menu Sluiten",
+        ["close_menu"] = "⬅ Menu Sluiten"
     }
 }
 

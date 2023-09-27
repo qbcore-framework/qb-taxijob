@@ -6,8 +6,11 @@ local Translations = {
         ["no_vehicle"] = "Sie sind nicht in einem Fahrzeug",
         ["not_active_meter"] = "Das Taxameter ist nicht aktiv",
         ["no_meter_sight"] = "Kein Taxameter in Sicht",
+        ["no_mission_active"] = "You dont have any mission to cancel"
     },
-    success = {},
+    success = {
+        ["mission_cancelled"] = "Mission canceled successfully"
+    },
     info = {
         ["person_was_dropped_off"] = "Person wurde abgesetzt!",
         ["npc_on_gps"] = "Der NPC wird auf Ihrem GPS angezeigt",
@@ -19,7 +22,9 @@ local Translations = {
         ["blip_name"] = "Taxigesellschaft",
         ["taxi_label_1"] = "Standard Taxi",
         ["no_spawn_point"] = "Unfähig, einen Ort zu finden, an den das Taxi gebracht werden kann",
-        ["taxi_returned"] = "Taxi einparken"
+        ["taxi_returned"] = "Taxi einparken",
+        ["on_duty"] = "[E] - Go on duty",
+        ["on_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Taxifahrzeuge",
