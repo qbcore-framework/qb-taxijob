@@ -2,12 +2,13 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'QB-TaxiJob'
-version '1.2.0'
+version '1.3.0'
 
 ui_page 'html/meter.html'
 
 shared_scripts {
     '@qb-core/shared/locale.lua',
+    '@oxmysql/lib/MySQL.lua',
     'locales/en.lua',
     'locales/*.lua',
     'config.lua',
