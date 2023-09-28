@@ -20,12 +20,7 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
             local r1, r2 = math.random(1, 5), math.random(1, 5)
             if randomAmount == r1 or randomAmount == r2 then Payment = Payment + math.random(10, 20) end
             if Config.Management then
-                MySQL.insert('INSERT INTO management_funds (job_name, amount, type) VALUES (:job_name, :amount, :type) ON DUPLICATE KEY UPDATE amount = :amount',
-                {
-                    ['job_name'] = Config.jobRequired,
-                    ['amount'] = Payment,
-                    ['type'] = 'boss'
-                })
+                exports['qb-management']:AddMoney('taxi', Payment)
             else
                 Player.Functions.AddMoney('cash', Payment)
             end
