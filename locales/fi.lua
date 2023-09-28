@@ -6,7 +6,9 @@ local Translations = {
         ["no_vehicle"] = "Et ole ajoneuvossa!",
         ["not_active_meter"] = "Taksimittari ei ole aktiivinen",
         ["no_meter_sight"] = "Ei taksimittaria nähtävissä",
-        ["no_mission_active"] = "You dont have any mission to cancel"
+        ["no_mission_active"] = "You dont have any mission to cancel",
+        ["deposit_vehicle"] = "You cant deposit this vehicle",
+        ["no_money"] = "You dont have enough money."
     },
     success = {
         ["mission_cancelled"] = "Mission canceled successfully"

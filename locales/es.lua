@@ -6,7 +6,9 @@ local Translations = {
         ["no_vehicle"] = "No estás en un vehículo",
         ["not_active_meter"] = "El taxímetro no está activo",
         ["no_meter_sight"] = "No hay taxímetro visible",
-        ["no_mission_active"] = "You dont have any mission to cancel"
+        ["no_mission_active"] = "You dont have any mission to cancel",
+        ["deposit_vehicle"] = "You cant deposit this vehicle",
+        ["no_money"] = "You dont have enough money."
     },
     success = {
         ["mission_cancelled"] = "Mission canceled successfully"

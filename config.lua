@@ -2,7 +2,13 @@ Config = {
 
     jobRequired = "taxi",
 
-    Management = false, -- if true, the money gained from the trips, will go to the boss menu funds
+    Management = true, -- if true, the money gained from the trips, will go to the boss menu funds
+
+    depositSystem = {
+        enable = false, -- pay to retrieve a taxi, the player will get the money back when he'll deposit the same taxi
+        amount = 100, -- amount of money to pay (the same that will be returned)
+        method = "cash" -- choose: cash, bank or crypto
+    },
 
     -- set this to false if you want to use distance checks
     UseTarget = GetConvar('UseTarget', 'false') == 'true',

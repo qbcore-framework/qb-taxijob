@@ -41,3 +41,19 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
         DropPlayer(src, 'Attempting To Exploit')
     end
 end)
+
+QBCore.Functions.CreateCallback('qb-taxi:server:handleMoney', function(source, cb, bool)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local payMethod = Config.depositSystem.method
+    local amount = Config.depositSystem.amount
+    if bool then -- remove money (retrieve taxi)
+        if Player.Functions.RemoveMoney(payMethod, amount) then
+            cb(true) 
+        else
+            cb(false)
+        end
+    else
+        Player.Functions.AddMoney(payMethod, amount)
+        cb(true)
+    end
+end)
