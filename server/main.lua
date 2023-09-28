@@ -48,7 +48,6 @@ QBCore.Functions.CreateCallback('qb-taxi:server:handleMoney', function(source, c
     local Player = QBCore.Functions.GetPlayer(source)
     local payMethod = Config.depositSystem.method
     local amount = Config.depositSystem.amount
-    print(plate)
     if bool then -- remove money (retrieve taxi)
         if Player.Functions.RemoveMoney(payMethod, amount) then
             carsTaken[plate] = true
