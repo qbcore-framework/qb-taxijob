@@ -24,7 +24,7 @@ local Translations = {
         ["blip_name"] = "Midtby taxa",
         ["taxi_label_1"] = "Standart taxa",
         ["on_duty"] = "[E] - Go on duty",
-        ["on_duty"] = "[E] - Go off duty"
+        ["off_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Taxa køretøjer",

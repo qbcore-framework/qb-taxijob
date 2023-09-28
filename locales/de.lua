@@ -27,7 +27,7 @@ local Translations = {
         ["no_spawn_point"] = "Unfähig, einen Ort zu finden, an den das Taxi gebracht werden kann",
         ["taxi_returned"] = "Taxi einparken",
         ["on_duty"] = "[E] - Go on duty",
-        ["on_duty"] = "[E] - Go off duty"
+        ["off_duty"] = "[E] - Go off duty"
     },
     menu = {
         ["taxi_menu_header"] = "Taxifahrzeuge",

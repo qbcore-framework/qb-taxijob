@@ -8,15 +8,14 @@ ui_page 'html/meter.html'
 
 shared_scripts {
     '@qb-core/shared/locale.lua',
-    '@oxmysql/lib/MySQL.lua',
     'locales/en.lua',
     'locales/*.lua',
-    'config.lua',
+    'config.lua'
 }
 
 dependencies {
     'qb-core',
-    'PolyZone',
+    'PolyZone'
 }
 
 client_scripts {
@@ -25,7 +24,7 @@ client_scripts {
     '@PolyZone/EntityZone.lua',
     '@PolyZone/CircleZone.lua',
     '@PolyZone/ComboZone.lua',
-    'client/main.lua',
+    'client/main.lua'
 }
 
 server_script 'server/main.lua'
