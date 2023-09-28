@@ -15,8 +15,6 @@ local isInsideDropZone = false
 local Notified = false
 local isPlayerInsideZone = false
 
-local carsTaken = {}
-
 local meterData = {
     fareAmount = 6,
     currentFare = 0,
@@ -333,31 +331,29 @@ RegisterNetEvent("qb-taxi:client:TakeVehicle", function(data)
     if SpawnPoint then
         local coords = vector3(Config.CabSpawns[SpawnPoint].x,Config.CabSpawns[SpawnPoint].y,Config.CabSpawns[SpawnPoint].z)
         local CanSpawn = IsSpawnPointClear(coords, 2.0)
+        local plate = "TAXI"..tostring(math.random(1000, 9999))
         if CanSpawn then
             if Config.depositSystem.enable then
                 QBCore.Functions.TriggerCallback('qb-taxi:server:handleMoney', function(success)
                     if success then
                         QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
                             local veh = NetToVeh(netId)
-                            SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
+                            SetVehicleNumberPlateText(veh, plate)
                             exports['LegacyFuel']:SetFuel(veh, 100.0)
                             closeMenuFull()
                             SetEntityHeading(veh, Config.CabSpawns[SpawnPoint].w)
                             TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
                             TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
                             SetVehicleEngineOn(veh, true, true)
-
-                            local plate = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId()))
-                            carsTaken[plate] = true
                         end, data.model, coords, true)
                     else
                         QBCore.Functions.Notify(Lang:t("error.no_money"), "error")
                     end
-                end, true)
+                end, true, plate)
             else
                 QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
                     local veh = NetToVeh(netId)
-                    SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
+                    SetVehicleNumberPlateText(veh, plate)
                     exports['LegacyFuel']:SetFuel(veh, 100.0)
                     closeMenuFull()
                     SetEntityHeading(veh, Config.CabSpawns[SpawnPoint].w)
@@ -635,16 +631,13 @@ CreateThread(function()
                                     if IsPedInAnyVehicle(PlayerPedId(), false) then
                                         if Config.depositSystem.enable then
                                             local plate = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId()))
-                                            if carsTaken[plate] then
-                                                QBCore.Functions.TriggerCallback('qb-taxi:server:handleMoney', function(success)
-                                                    if success then 
-                                                        DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
-                                                        carsTaken[plate] = nil
-                                                    end
-                                                end, false)
-                                            else
-                                                QBCore.Functions.Notify(Lang:t("error.deposit_vehicle"))
-                                            end
+                                            QBCore.Functions.TriggerCallback('qb-taxi:server:handleMoney', function(success)
+                                                if success then 
+                                                    DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+                                                else
+                                                    QBCore.Functions.Notify(Lang:t("error.deposit_vehicle"), "error")
+                                                end
+                                            end, false, plate)
                                         else
                                             DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                         end

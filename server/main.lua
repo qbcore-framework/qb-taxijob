@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local carsTaken = {}
 
 function NearTaxi(src)
     local ped = GetPlayerPed(src)
@@ -42,18 +43,26 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-taxi:server:handleMoney', function(source, cb, bool)
+QBCore.Functions.CreateCallback('qb-taxi:server:handleMoney', function(source, cb, bool, plate)
+    if not Config.depositSystem.enable then return end
     local Player = QBCore.Functions.GetPlayer(source)
     local payMethod = Config.depositSystem.method
     local amount = Config.depositSystem.amount
+    print(plate)
     if bool then -- remove money (retrieve taxi)
         if Player.Functions.RemoveMoney(payMethod, amount) then
-            cb(true) 
+            carsTaken[plate] = true
+            cb(true)
         else
             cb(false)
         end
     else
-        Player.Functions.AddMoney(payMethod, amount)
-        cb(true)
+        if carsTaken[plate] then
+            Player.Functions.AddMoney(payMethod, amount)
+            carsTaken[plate] = nil
+            cb(true)
+        else
+            cb(false)
+        end
     end
 end)
