@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local carsTaken = {}
 
 function NearTaxi(src)
     local ped = GetPlayerPed(src)
@@ -21,12 +20,7 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
             local r1, r2 = math.random(1, 5), math.random(1, 5)
             if randomAmount == r1 or randomAmount == r2 then Payment = Payment + math.random(10, 20) end
             if Config.Management then
-                MySQL.insert('INSERT INTO management_funds (job_name, amount, type) VALUES (:job_name, :amount, :type) ON DUPLICATE KEY UPDATE amount = :amount',
-                {
-                    ['job_name'] = Config.jobRequired,
-                    ['amount'] = Payment,
-                    ['type'] = 'boss'
-                })
+                exports['qb-management']:AddMoney('taxi', Payment)
             else
                 Player.Functions.AddMoney('cash', Payment)
             end
@@ -40,28 +34,5 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
         end
     else
         DropPlayer(src, 'Attempting To Exploit')
-    end
-end)
-
-QBCore.Functions.CreateCallback('qb-taxi:server:handleMoney', function(source, cb, bool, plate)
-    if not Config.depositSystem.enable then return end
-    local Player = QBCore.Functions.GetPlayer(source)
-    local payMethod = Config.depositSystem.method
-    local amount = Config.depositSystem.amount
-    if bool then -- remove money (retrieve taxi)
-        if Player.Functions.RemoveMoney(payMethod, amount) then
-            carsTaken[plate] = true
-            cb(true)
-        else
-            cb(false)
-        end
-    else
-        if carsTaken[plate] then
-            Player.Functions.AddMoney(payMethod, amount)
-            carsTaken[plate] = nil
-            cb(true)
-        else
-            cb(false)
-        end
     end
 end)
