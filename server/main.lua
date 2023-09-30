@@ -23,7 +23,7 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
             if Config.Management then
                 exports['qb-management']:AddMoney(Config.jobRequired, Payment)
             else
-                Player.Functions.AddMoney(Config.jobRequired, Payment)
+                Player.Functions.AddMoney('cash', Payment)
             end
             local chance = math.random(1, 100)
             if chance < 26 then
