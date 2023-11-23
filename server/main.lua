@@ -4,7 +4,7 @@ function NearTaxi(src)
     local ped = GetPlayerPed(src)
     local coords = GetEntityCoords(ped)
     for _, v in pairs(Config.NPCLocations.DeliverLocations) do
-        local dist = #(coords - vector3(v.x,v.y,v.z))
+        local dist = #(coords - vector3(v.x, v.y, v.z))
         if dist < 20 then
             return true
         end
@@ -20,14 +20,14 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
             local r1, r2 = math.random(1, 5), math.random(1, 5)
             if randomAmount == r1 or randomAmount == r2 then Payment = Payment + math.random(10, 20) end
             if Config.Management then
-                exports['qb-management']:AddMoney('taxi', Payment)
+                exports['qb-banking']:AddMoney('taxi', Payment, 'Customer payment')
             else
                 Player.Functions.AddMoney('cash', Payment)
             end
             local chance = math.random(1, 100)
             if chance < 26 then
-                Player.Functions.AddItem("cryptostick", 1, false)
-                TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["cryptostick"], "add")
+                Player.Functions.AddItem('cryptostick', 1, false)
+                TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cryptostick'], 'add')
             end
         else
             DropPlayer(src, 'Attempting To Exploit')
