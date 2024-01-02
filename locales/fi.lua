@@ -5,7 +5,6 @@ local Translations = {
         ["missing_meter"] = "Ajoneuvossa ei ole taksimittaria",
         ["no_vehicle"] = "Et ole ajoneuvossa!",
         ["not_active_meter"] = "Taksimittari ei ole aktiivinen",
-        ["no_meter_sight"] = "Ei taksimittaria nähtävissä",
         ["no_mission_active"] = "You dont have any mission to cancel"
     },
     success = {
