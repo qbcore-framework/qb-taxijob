@@ -5,7 +5,6 @@ local Translations = {
         ["missing_meter"] = "Bu Aracın Taksimetresi Yok",
         ["no_vehicle"] = "Bir araçta değilsin",
         ["not_active_meter"] = "Taksimetre Aktif Değil",
-        ["no_meter_sight"] = "Görünürde Taksimetre Yok",
         ["no_mission_active"] = "You dont have any mission to cancel"
     },
     success = {

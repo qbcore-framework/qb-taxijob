@@ -5,7 +5,6 @@ local Translations = {
         ["missing_meter"] = "Questo veicolo non ha un tassametro",
         ["no_vehicle"] = "Non sei in un veicolo",
         ["not_active_meter"] = "Il tassametro non è acceso",
-        ["no_meter_sight"] = "Nessun tassametro visibile",
         ["no_mission_active"] = "Non hai tratte da annullare"
     },
     success = {

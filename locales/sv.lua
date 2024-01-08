@@ -5,7 +5,6 @@ local Translations = {
         ["missing_meter"] = "Det här fordonet har ingen taxameter",
         ["no_vehicle"] = "Du är inte i ett fordon",
         ["not_active_meter"] = "Taxametern är inte aktiv",
-        ["no_meter_sight"] = "Ingen Taxameter i sikte",
         ["no_mission_active"] = "You dont have any mission to cancel"
     },
     success = {

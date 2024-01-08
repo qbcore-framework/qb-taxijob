@@ -5,7 +5,6 @@ local Translations = {
         ["missing_meter"] = "รถคันนี้ไม่มีมิเตอร์แท็กซี่",
         ["no_vehicle"] = "คุณไม่ได้อยู่ในยานพาหนะ",
         ["not_active_meter"] = "มิเตอร์แท็กซี่ไม่ทำงาน",
-        ["no_meter_sight"] = "ไม่มีมิเตอร์แท็กซี่ในระยะสายตา",
         ["no_mission_active"] = "You dont have any mission to cancel"
     },
     success = {

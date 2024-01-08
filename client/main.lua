@@ -521,18 +521,6 @@ RegisterNetEvent('qb-taxi:client:enableMeter', function()
     end
 end)
 
-RegisterNetEvent('qb-taxi:client:toggleMuis', function()
-    Wait(400)
-    if meterIsOpen then
-        if not mouseActive then
-            SetNuiFocus(true, true)
-            mouseActive = true
-        end
-    else
-        QBCore.Functions.Notify(Lang:t('error.no_meter_sight'), 'error')
-    end
-end)
-
 -- NUI Callbacks
 
 RegisterNUICallback('enableMeter', function(data, cb)

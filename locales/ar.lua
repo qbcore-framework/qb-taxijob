@@ -5,7 +5,6 @@ local Translations = {
         ["missing_meter"] = "هذه السيارة لا تحتوي على عداد سيارات الأجرة",
         ["no_vehicle"] = "أنت لست في سيارة",
         ["not_active_meter"] = "عداد سيارة الأجرة غير نشط",
-        ["no_meter_sight"] = "لا يوجد عداد سيارات الأجرة في الأفق",
         ["no_mission_active"] = "You dont have any mission to cancel"
     },
     success = {
