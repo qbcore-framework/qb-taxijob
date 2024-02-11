@@ -1,7 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
-
-description 'QB-TaxiJob'
+lua54 'yes'
+author 'Kakarot'
+description 'Allows players to work as a taxi driver and pickup npcs around the map'
 version '1.2.0'
 
 ui_page 'html/meter.html'
@@ -11,11 +12,6 @@ shared_scripts {
     'locales/en.lua',
     'locales/*.lua',
     'config.lua',
-}
-
-dependencies {
-    'qb-core',
-    'PolyZone',
 }
 
 client_scripts {
@@ -36,5 +32,3 @@ files {
     'html/reset.css',
     'html/g5-meter.png'
 }
-
-lua54 'yes'
