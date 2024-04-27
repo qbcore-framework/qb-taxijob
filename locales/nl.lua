@@ -21,7 +21,7 @@ local Translations = {
         ["blip_name"] = "Downtown Cab",
         ["taxi_label_1"] = "Standaard Cab",
         ["on_duty"] = "[E] - Go on duty",
-        ["on_duty"] = "[E] - Go off duty"
+        ["off_duty"] = "[E] - Go off duty"
         },
     menu = {
         ["taxi_menu_header"] = "Taxi Voertuigen",
