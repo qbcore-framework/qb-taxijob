@@ -21,7 +21,7 @@ local Translations = {
         ["blip_name"] = "Taxi",
         ["taxi_label_1"] = "Taxi Base",
         ["on_duty"] = "[E] - Vai in servizio",
-        ["on_duty"] = "[E] - Vai fuori servizio"
+        ["off_duty"] = "[E] - Vai fuori servizio"
     },
     menu = {
         ["taxi_menu_header"] = "Veicoli Taxi",
