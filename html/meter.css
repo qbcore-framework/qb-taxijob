@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 
 :root {
     --meter-size-width: 45vh;
@@ -27,7 +27,7 @@
 
 #total-price {
     color: rgb(64, 160, 64);
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: bold;
     letter-spacing: 0.1vh;
     font-size: 4.1vh;
@@ -39,7 +39,7 @@
 
 #total-price-label {
     color: rgba(255, 255, 255, 0.75);
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: lighter;
     font-size: 1.1vh;
     letter-spacing: 0.1vh;
@@ -51,7 +51,7 @@
 
 #total-distance {
     color: rgb(255, 153, 57);
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: bold;
     letter-spacing: 0.1vh;
     font-size: 4.1vh;
@@ -63,7 +63,7 @@
 
 #total-distance-label {
     color: rgba(255, 255, 255, 0.75);
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: lighter;
     font-size: 1.1vh;
     letter-spacing: 0.1vh;
@@ -75,7 +75,7 @@
 
 #total-price-per-100m {
     color: rgb(56, 143, 243);
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: bold;
     letter-spacing: 0.1vh;
     font-size: 4.1vh;
@@ -87,7 +87,7 @@
 
 #total-price-per-100m-label {
     color: rgba(255, 255, 255, 0.75);
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: lighter;
     font-size: 1.1vh;
     letter-spacing: 0.1vh;

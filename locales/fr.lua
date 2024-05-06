@@ -1,34 +1,34 @@
 local Translations = {
     error = {
-        ["already_mission"] = "Vous êtes déjà en mission",
-        ["not_in_taxi"] = "Vous n\'êtes pas dans un taxi",
-        ["missing_meter"] = "Ce véhicule n'a pas de taximètre",
-        ["no_vehicle"] = "Vous n\'êtes pas dans un véhicule",
-        ["not_active_meter"] = "Le taximètre n\'est pas activé",
-        ["no_mission_active"] = "You dont have any mission to cancel"
+        ['already_mission'] = 'Vous êtes déjà en mission',
+        ['not_in_taxi'] = 'Vous n\'êtes pas dans un taxi',
+        ['missing_meter'] = "Ce véhicule n'a pas de taximètre",
+        ['no_vehicle'] = 'Vous n\'êtes pas dans un véhicule',
+        ['not_active_meter'] = 'Le taximètre n\'est pas activé',
+        ['no_mission_active'] = 'You dont have any mission to cancel'
     },
     success = {
-        ["mission_cancelled"] = "Mission canceled successfully"
+        ['mission_cancelled'] = 'Mission canceled successfully'
     },
     info = {
-        ["person_was_dropped_off"] = "La personne a été déposée!",
-        ["npc_on_gps"] = "Le client est indiqué sur votre GPS!",
-        ["go_to_location"] = "Amenez le client à la destination spécifiée",
-        ["vehicle_parking"] = "[E] Parking",
-        ["job_vehicles"] = "[E] Vehicules disponibles",
-        ["drop_off_npc"] = "[E] Déposer le client",
-        ["call_npc"] = "[E] Appeler le client",
-        ["blip_name"] = "Downtown Cab Co.",
-        ["taxi_label_1"] = "Taxi Standard",
-        ["no_spawn_point"] = "Impossible de trouver un emplacement pour amener le taxi",
-        ["taxi_returned"] = "Taxi Garé",
-        ["on_duty"] = "[E] - Go on duty",
-        ["on_duty"] = "[E] - Go off duty"
+        ['person_was_dropped_off'] = 'La personne a été déposée!',
+        ['npc_on_gps'] = 'Le client est indiqué sur votre GPS!',
+        ['go_to_location'] = 'Amenez le client à la destination spécifiée',
+        ['vehicle_parking'] = '[E] Parking',
+        ['job_vehicles'] = '[E] Vehicules disponibles',
+        ['drop_off_npc'] = '[E] Déposer le client',
+        ['call_npc'] = '[E] Appeler le client',
+        ['blip_name'] = 'Downtown Cab Co.',
+        ['taxi_label_1'] = 'Taxi Standard',
+        ['no_spawn_point'] = 'Impossible de trouver un emplacement pour amener le taxi',
+        ['taxi_returned'] = 'Taxi Garé',
+        ['on_duty'] = '[E] - Go on duty',
+        ['off_duty'] = '[E] - Go off duty'
     },
     menu = {
-        ["taxi_menu_header"] = "Taxi",
-        ["close_menu"] = "⬅ Fermer le menu",
-        ['boss_menu'] = "Menu Boss"
+        ['taxi_menu_header'] = 'Taxi',
+        ['close_menu'] = '⬅ Fermer le menu',
+        ['boss_menu'] = 'Menu Boss'
     }
 }
 

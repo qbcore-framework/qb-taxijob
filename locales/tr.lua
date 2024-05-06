@@ -1,31 +1,31 @@
 local Translations = {
     error = {
-        ["already_mission"] = "Zaten Bir NPC Görevi Yapıyorsunuz",
-        ["not_in_taxi"] = "Takside Değilsin",
-        ["missing_meter"] = "Bu Aracın Taksimetresi Yok",
-        ["no_vehicle"] = "Bir araçta değilsin",
-        ["not_active_meter"] = "Taksimetre Aktif Değil",
-        ["no_mission_active"] = "You dont have any mission to cancel"
+        ['already_mission'] = 'Zaten Bir NPC Görevi Yapıyorsunuz',
+        ['not_in_taxi'] = 'Takside Değilsin',
+        ['missing_meter'] = 'Bu Aracın Taksimetresi Yok',
+        ['no_vehicle'] = 'Bir araçta değilsin',
+        ['not_active_meter'] = 'Taksimetre Aktif Değil',
+        ['no_mission_active'] = 'You dont have any mission to cancel'
     },
     success = {
-        ["mission_cancelled"] = "Mission canceled successfully"
+        ['mission_cancelled'] = 'Mission canceled successfully'
     },
     info = {
-        ["person_was_dropped_off"] = "Kişi Bırakıldı!",
-        ["npc_on_gps"] = "NPC, GPS'inizde Belirtildi",
-        ["go_to_location"] = "NPC'yi Belirtilen Yere Götürün",
-        ["vehicle_parking"] = "[E] Araç Otoparkı",
-        ["job_vehicles"] = "[E] İş Araçları",
-        ["drop_off_npc"] = "[E] NPC'yi Bırak",
-        ["call_npc"] = "[E] NPC'yi Çağır",
-        ["blip_name"] = "Downtown Cab",
-        ["taxi_label_1"] = "Standart Cab",
-        ["on_duty"] = "[E] - Go on duty",
-        ["on_duty"] = "[E] - Go off duty"
+        ['person_was_dropped_off'] = 'Kişi Bırakıldı!',
+        ['npc_on_gps'] = "NPC, GPS'inizde Belirtildi",
+        ['go_to_location'] = "NPC'yi Belirtilen Yere Götürün",
+        ['vehicle_parking'] = '[E] Araç Otoparkı',
+        ['job_vehicles'] = '[E] İş Araçları',
+        ['drop_off_npc'] = "[E] NPC'yi Bırak",
+        ['call_npc'] = "[E] NPC'yi Çağır",
+        ['blip_name'] = 'Downtown Cab',
+        ['taxi_label_1'] = 'Standart Cab',
+        ['on_duty'] = '[E] - Go on duty',
+        ['off_duty'] = '[E] - Go off duty'
     },
     menu = {
-        ["taxi_menu_header"] = "Taksi Araçları",
-        ["close_menu"] = "⬅ Menüyü Kapat"
+        ['taxi_menu_header'] = 'Taksi Araçları',
+        ['close_menu'] = '⬅ Menüyü Kapat'
     }
 }
 

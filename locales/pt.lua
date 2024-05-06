@@ -1,31 +1,31 @@
 local Translations = {
     error = {
-        ["already_mission"] = "Já te encontrar a efectuar uma missão NPC",
-        ["not_in_taxi"] = "Não estás num Taxi",
-        ["missing_meter"] = "Este veículo não possui um taxímetro",
-        ["no_vehicle"] = "Não estás num veículo",
-        ["not_active_meter"] = "O taxímetro não se encontra activo",
-        ["no_mission_active"] = "You dont have any mission to cancel"
+        ['already_mission'] = 'Já te encontrar a efectuar uma missão NPC',
+        ['not_in_taxi'] = 'Não estás num Taxi',
+        ['missing_meter'] = 'Este veículo não possui um taxímetro',
+        ['no_vehicle'] = 'Não estás num veículo',
+        ['not_active_meter'] = 'O taxímetro não se encontra activo',
+        ['no_mission_active'] = 'You dont have any mission to cancel'
     },
     success = {
-        ["mission_cancelled"] = "Mission canceled successfully"
+        ['mission_cancelled'] = 'Mission canceled successfully'
     },
     info = {
-        ["person_was_dropped_off"] = "O passageiro foi entregue!",
-        ["npc_on_gps"] = "O NPC encontra-se indicado no teu GPS",
-        ["go_to_location"] = "Transporta o NPC para a localização assinalada",
-        ["vehicle_parking"] = "[E] Estacionamento de Veículo",
-        ["job_vehicles"] = "[E] Veículos de Trabalho",
-        ["drop_off_npc"] = "[E] Entregar NPC",
-        ["call_npc"] = "[E] Chamar NPC",
-        ["blip_name"] = "Taxis da Baixa",
-        ["taxi_label_1"] = "Taxi",
-        ["on_duty"] = "[E] - Go on duty",
-        ["on_duty"] = "[E] - Go off duty"
+        ['person_was_dropped_off'] = 'O passageiro foi entregue!',
+        ['npc_on_gps'] = 'O NPC encontra-se indicado no teu GPS',
+        ['go_to_location'] = 'Transporta o NPC para a localização assinalada',
+        ['vehicle_parking'] = '[E] Estacionamento de Veículo',
+        ['job_vehicles'] = '[E] Veículos de Trabalho',
+        ['drop_off_npc'] = '[E] Entregar NPC',
+        ['call_npc'] = '[E] Chamar NPC',
+        ['blip_name'] = 'Taxis da Baixa',
+        ['taxi_label_1'] = 'Taxi',
+        ['on_duty'] = '[E] - Go on duty',
+        ['off_duty'] = '[E] - Go off duty'
     },
     menu = {
-        ["taxi_menu_header"] = "Veículos de Taxi",
-        ["close_menu"] = "⬅ Fechar Menu"
+        ['taxi_menu_header'] = 'Veículos de Taxi',
+        ['close_menu'] = '⬅ Fechar Menu'
     }
 }
 
