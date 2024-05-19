@@ -285,6 +285,49 @@ local function calculateFareAmount()
     end
 end
 
+local function listenForVehicleDamage()
+    CreateThread(function()
+        local lastVehicleHealth = nil
+        while true do
+            if not Config.Advanced.Enabled then return end
+            if NpcData.Active and NpcData.NpcTaken then
+                local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+
+                if vehicle and vehicle ~= 0 then
+                    local currentHealth = GetEntityHealth(vehicle)
+                    if currentHealth < Config.Advanced.MinCabHealth then
+                        TriggerEvent('qb-taxi:client:CancelTaxiNpc')
+                        return QBCore.Functions.Notify('Your taxi needs to be repaired before resuming work!', 'error')
+                    end
+
+                    if lastVehicleHealth and currentHealth < lastVehicleHealth then
+                        if Config.Advanced.Speech.Enabled then
+                            if lastVehicleHealth - currentHealth < 10 then -- small crash = angry / big crash = scared
+                                PlayPedAmbientSpeechNative(NpcData.Npc, Config.Advanced.Speech.Angry, 'SPEECH_PARAMS_ALLOW_REPEAT')
+                            else
+                                PlayPedAmbientSpeechNative(NpcData.Npc, Config.Advanced.Speech.Scared, 'SPEECH_PARAMS_ALLOW_REPEAT')
+                            end
+                        end
+
+                        NpcData.CrashCount += 1
+                        if NpcData.CrashCount >= Config.Advanced.MaxCrashesAllowed then
+                            TriggerEvent('qb-taxi:client:CancelTaxiNpc')
+                            return QBCore.Functions.Notify('You have crashed too many times, the ride is cancelled!', 'error')
+                        end
+
+                        local count = Config.Advanced.MaxCrashesAllowed - NpcData.CrashCount
+                        QBCore.Functions.Notify(string.format('If you crash %d more %s the customer will stop the ride and you will not be paid!', count, count == 1 and 'time' or 'times'), 'error')
+                    end
+                    lastVehicleHealth = currentHealth
+                else
+                    lastVehicleHealth = nil
+                end
+            end
+            Wait(200)
+        end
+    end)
+end
+
 -- qb-menu
 
 function TaxiGarage()
@@ -427,6 +470,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                                     ClearPedTasksImmediately(NpcData.Npc)
                                     FreezeEntityPosition(NpcData.Npc, false)
                                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                                    listenForVehicleDamage()
                                     resetMeter()
                                     QBCore.Functions.Notify(Lang:t('info.go_to_location'))
                                     if NpcData.NpcBlip ~= nil then
@@ -563,48 +607,6 @@ CreateThread(function()
     end
 end)
 
-CreateThread(function()
-    local lastVehicleHealth = nil
-    while true do
-        if not Config.Advanced.Enabled then return end
-        if NpcData.Active and NpcData.NpcTaken then
-            local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-
-            if vehicle and vehicle ~= 0 then
-                local currentHealth = GetEntityHealth(vehicle)
-                if currentHealth < Config.Advanced.MinCabHealth then
-                    TriggerEvent('qb-taxi:client:CancelTaxiNpc')
-                    return QBCore.Functions.Notify('Your taxi needs to be repaired before resuming work!', 'error')
-                end
-
-                if lastVehicleHealth and currentHealth < lastVehicleHealth then
-                    if Config.Advanced.Speech.Enabled then
-                        if lastVehicleHealth - currentHealth < 10 then -- small crash = angry / big crash = scared
-                            PlayPedAmbientSpeechNative(NpcData.Npc, Config.Advanced.Speech.Angry, 'SPEECH_PARAMS_ALLOW_REPEAT')
-                        else
-                            PlayPedAmbientSpeechNative(NpcData.Npc, Config.Advanced.Speech.Scared, 'SPEECH_PARAMS_ALLOW_REPEAT')
-                        end
-                    end
-
-                    NpcData.CrashCount += 1
-                    if NpcData.CrashCount >= Config.Advanced.MaxCrashesAllowed then
-                        TriggerEvent('qb-taxi:client:CancelTaxiNpc')
-                        return QBCore.Functions.Notify('You have crashed too many times, the ride is cancelled!', 'error')
-                    end
-
-                    local count = Config.Advanced.MaxCrashesAllowed - NpcData.CrashCount
-                    QBCore.Functions.Notify(string.format('If you crash %d more %s the customer will stop the ride and you will not be paid!', count, count == 1 and 'time' or 'times'), 'error')
-                end
-                lastVehicleHealth = currentHealth
-            else
-                lastVehicleHealth = nil
-            end
-        end
-        Wait(200)
-    end
-end)
-
-
 RegisterNetEvent('qb-taxijob:client:requestcab', function()
     TaxiGarage()
 end)
@@ -739,7 +741,7 @@ function callNpcPoly()
             if isInsidePickupZone then
                 if IsControlJustPressed(0, 38) then
                     exports['qb-core']:KeyPressed()
-                    local veh = GetVehiclePedIsIn(ped, 0)
+                    local veh = GetVehiclePedIsIn(ped, false)
                     local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
 
                     for i = maxSeats - 1, 0, -1 do
@@ -763,6 +765,7 @@ function callNpcPoly()
                     ClearPedTasksImmediately(NpcData.Npc)
                     FreezeEntityPosition(NpcData.Npc, false)
                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                    listenForVehicleDamage()
                     resetMeter()
                     QBCore.Functions.Notify(Lang:t('info.go_to_location'))
                     if NpcData.NpcBlip ~= nil then
