@@ -5,7 +5,6 @@ local Translations = {
         ['missing_meter'] = 'This Vehicle Has No Taxi Meter',
         ['no_vehicle'] = "You're not in a vehicle",
         ['not_active_meter'] = 'The Taxi Meter Is Not Active',
-        ['no_mission_active'] = 'You dont have any mission to cancel'
     },
     success = {
         ['mission_cancelled'] = 'Mission canceled successfully',

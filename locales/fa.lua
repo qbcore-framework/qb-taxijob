@@ -5,10 +5,6 @@ local Translations = {
         ['missing_meter'] = 'Dar In Vasile Nagliye Taxi Meter Mojud Nist',
         ['no_vehicle'] = 'Shoma Dar Vasile Nagliye Nist',
         ['not_active_meter'] = 'Taxi Meter Faal Nist',
-        ['no_mission_active'] = 'You dont have any mission to cancel'
-    },
-    success = {
-        ['mission_cancelled'] = 'Mission canceled successfully'
     },
     info = {
         ['person_was_dropped_off'] = 'Mosafer Piyade Shod!',
