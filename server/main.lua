@@ -11,19 +11,32 @@ function NearTaxi(src)
     end
 end
 
-RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
+RegisterNetEvent('qb-taxi:server:NpcPay', function(payment, hasReceivedBonus)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.PlayerData.job.name == Config.jobRequired then
         if NearTaxi(src) then
             local randomAmount = math.random(1, 5)
             local r1, r2 = math.random(1, 5), math.random(1, 5)
-            if randomAmount == r1 or randomAmount == r2 then Payment = Payment + math.random(10, 20) end
-            if Config.Management then
-                exports['qb-banking']:AddMoney('taxi', Payment, 'Customer payment')
-            else
-                Player.Functions.AddMoney('cash', Payment, 'taxi payout')
+            if randomAmount == r1 or randomAmount == r2 then payment = payment + math.random(10, 20) end
+
+            if Config.Advanced.Bonus.Enabled then
+                local tipAmount = math.floor(payment * Config.Advanced.Bonus.Percentage / 100)
+
+                payment += tipAmount
+                if hasReceivedBonus then
+                    TriggerClientEvent('QBCore:Notify', src, string.format('You have been tipped $%d for your safe driving', tipAmount), 'primary', 5000)
+                else
+                    TriggerClientEvent('QBCore:Notify', src, 'Try not to crash the cab if you want to receive any tips in the future', 'primary', 5000)
+                end
             end
+
+            if Config.Management then
+                exports['qb-banking']:AddMoney('taxi', payment, 'Customer payment')
+            else
+                Player.Functions.AddMoney('cash', payment, 'taxi payout')
+            end
+
             local chance = math.random(1, 100)
             if chance < 26 then
                 Player.Functions.AddItem('cryptostick', 1, false)

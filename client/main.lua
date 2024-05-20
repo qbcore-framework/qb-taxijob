@@ -177,7 +177,7 @@ local function GetDeliveryLocation()
                             SendNUIMessage({
                                 action = 'toggleMeter'
                             })
-                            TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
+                            TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare, NpcData.CrashCount == 0)
                             meterActive = false
                             SendNUIMessage({
                                 action = 'resetMeter'
@@ -289,8 +289,9 @@ local function listenForVehicleDamage()
     CreateThread(function()
         local lastVehicleHealth = nil
         while true do
-            if not Config.Advanced.Enabled then return end
-            if NpcData.Active and NpcData.NpcTaken then
+            if not Config.Advanced.Bonus.Enabled or not NpcData.Active then return end
+
+            if NpcData.NpcTaken then
                 local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 
                 if vehicle and vehicle ~= 0 then
@@ -798,7 +799,7 @@ function dropNpcPoly()
                     SendNUIMessage({
                         action = 'toggleMeter'
                     })
-                    TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
+                    TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare, NpcData.CrashCount == 0)
                     meterActive = false
                     SendNUIMessage({
                         action = 'resetMeter'

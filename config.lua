@@ -27,7 +27,10 @@ Config = {
     Duty = vector3(894.88, -179.22, 74.7),
 
     Advanced = {
-        Enabled = true,
+        Bonus = {
+            Enabled = true,
+            Percentage = 10,    -- bonus in % for intact vehicle
+        },
         Speech = {
             Enabled = true,
             Angry = 'GENERIC_INSULT_HIGH',
