@@ -26,6 +26,22 @@ Config = {
 
     Duty = vector3(894.88, -179.22, 74.7),
 
+    Advanced = {
+        Bonus = {
+            Enabled = true,
+            Percentage = 10,    -- bonus in % for intact vehicle
+        },
+        Speech = {
+            Enabled = true,
+            Angry = 'GENERIC_INSULT_HIGH',
+            Scared = 'GENERIC_FRIGHTENED_HIGH',
+            Grateful = 'GENERIC_THANKS',
+            Happy = 'GENERIC_HAPPY'
+        },
+        MinCabHealth = 750,     -- min vehicle health before mission stops
+        MaxCrashesAllowed = 5,  -- amount of crashes before mission stops
+    },
+
     NPCLocations = {
         TakeLocations = {
             [1] = vector4(257.61, -380.57, 44.71, 340.5),

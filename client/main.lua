@@ -4,7 +4,6 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local meterIsOpen = false
 local meterActive = false
 local lastLocation = nil
-local mouseActive = false
 local PlayerJob = {}
 local jobRequired = Config.jobRequired
 
@@ -33,7 +32,8 @@ local NpcData = {
     NpcDelivered = false,
     CountDown = 180,
     startingLength = 0,
-    distanceLeft = 0
+    distanceLeft = 0,
+    CrashCount = 0
 }
 
 -- events
@@ -90,7 +90,8 @@ local function ResetNpcTask()
         NpcTaken = false,
         NpcDelivered = false,
         startingLength = 0,
-        distanceLeft = 0
+        distanceLeft = 0,
+        CrashCount = 0
     }
 end
 
@@ -105,8 +106,7 @@ local function resetMeter()
 end
 
 local function whitelistedVehicle()
-    local ped = PlayerPedId()
-    local veh = GetEntityModel(GetVehiclePedIsIn(ped))
+    local veh = GetEntityModel(GetVehiclePedIsIn(PlayerPedId()))
     local retval = false
 
     for i = 1, #Config.AllowedVehicles, 1 do
@@ -121,6 +121,7 @@ local function whitelistedVehicle()
 
     return retval
 end
+
 local function IsDriver()
     return GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId()
 end
@@ -176,7 +177,8 @@ local function GetDeliveryLocation()
                             SendNUIMessage({
                                 action = 'toggleMeter'
                             })
-                            TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
+                            TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare, NpcData.CrashCount == 0)
+                            PlayPedAmbientSpeechNative(NpcData.Npc, NpcData.CrashCount == 0 and Config.Advanced.Speech.Happy or Config.Advanced.Speech.Grateful, 'SPEECH_PARAMS_ALLOW_REPEAT')
                             meterActive = false
                             SendNUIMessage({
                                 action = 'resetMeter'
@@ -282,6 +284,50 @@ local function calculateFareAmount()
             end
         end
     end
+end
+
+local function listenForVehicleDamage()
+    CreateThread(function()
+        local lastVehicleHealth = nil
+        while true do
+            if not Config.Advanced.Bonus.Enabled or not NpcData.Active then return end
+
+            if NpcData.NpcTaken then
+                local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+
+                if vehicle and vehicle ~= 0 then
+                    local currentHealth = GetEntityHealth(vehicle)
+                    if currentHealth < Config.Advanced.MinCabHealth then
+                        TriggerEvent('qb-taxi:client:CancelTaxiNpc')
+                        return QBCore.Functions.Notify(Lang:t('error.broken_taxi'), 'error')
+                    end
+
+                    if lastVehicleHealth and currentHealth < lastVehicleHealth then
+                        if Config.Advanced.Speech.Enabled then
+                            if lastVehicleHealth - currentHealth < 10 then -- small crash = angry / big crash = scared
+                                PlayPedAmbientSpeechNative(NpcData.Npc, Config.Advanced.Speech.Angry, 'SPEECH_PARAMS_ALLOW_REPEAT')
+                            else
+                                PlayPedAmbientSpeechNative(NpcData.Npc, Config.Advanced.Speech.Scared, 'SPEECH_PARAMS_ALLOW_REPEAT')
+                            end
+                        end
+
+                        NpcData.CrashCount += 1
+                        if NpcData.CrashCount >= Config.Advanced.MaxCrashesAllowed then
+                            TriggerEvent('qb-taxi:client:CancelTaxiNpc')
+                            return QBCore.Functions.Notify(Lang:t('error.ride_canceled'), 'error')
+                        end
+
+                        local count = Config.Advanced.MaxCrashesAllowed - NpcData.CrashCount
+                        QBCore.Functions.Notify(string.format(Lang:t('error.crash_warning'), count, count == 1 and Lang:t('error.time') or Lang:t('error.times')), 'error')
+                    end
+                    lastVehicleHealth = currentHealth
+                else
+                    lastVehicleHealth = nil
+                end
+            end
+            Wait(200)
+        end
+    end)
 end
 
 -- qb-menu
@@ -426,6 +472,7 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
                                     ClearPedTasksImmediately(NpcData.Npc)
                                     FreezeEntityPosition(NpcData.Npc, false)
                                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                                    listenForVehicleDamage()
                                     resetMeter()
                                     QBCore.Functions.Notify(Lang:t('info.go_to_location'))
                                     if NpcData.NpcBlip ~= nil then
@@ -456,6 +503,7 @@ RegisterNetEvent('qb-taxi:client:CancelTaxiNpc', function()
         NpcData.LastNpc = nil
         NpcData.CurrentDeliver = nil
         NpcData.LastDeliver = nil
+        NpcData.CrashCount = 0
 
         if DoesEntityExist(NpcData.Npc) then
             SetEntityAsMissionEntity(NpcData.Npc, false, true)
@@ -478,10 +526,6 @@ RegisterNetEvent('qb-taxi:client:CancelTaxiNpc', function()
             })
             meterActive = false
         end
-
-        QBCore.Functions.Notify(Lang:t('success.mission_cancelled'), 'success')
-    else
-        QBCore.Functions.Notify(Lang:t('error.no_mission_active'), 'error')
     end
 end)
 
@@ -527,12 +571,6 @@ RegisterNUICallback('enableMeter', function(data, cb)
     meterActive = data.enabled
     if not meterActive then resetMeter() end
     lastLocation = GetEntityCoords(PlayerPedId())
-    cb('ok')
-end)
-
-RegisterNUICallback('hideMouse', function(_, cb)
-    SetNuiFocus(false, false)
-    mouseActive = false
     cb('ok')
 end)
 
@@ -654,7 +692,7 @@ function setupTarget()
 end
 
 local zone
-local delieveryZone
+local deliveryZone
 
 function createNpcPickUpLocation()
     zone = BoxZone:Create(Config.PZLocations.TakeLocations[NpcData.CurrentNpc].coord, Config.PZLocations.TakeLocations[NpcData.CurrentNpc].height, Config.PZLocations.TakeLocations[NpcData.CurrentNpc].width, {
@@ -678,14 +716,14 @@ function createNpcPickUpLocation()
 end
 
 function createNpcDelieveryLocation()
-    delieveryZone = BoxZone:Create(Config.PZLocations.DropLocations[NpcData.CurrentDeliver].coord, Config.PZLocations.DropLocations[NpcData.CurrentDeliver].height, Config.PZLocations.DropLocations[NpcData.CurrentDeliver].width, {
+    deliveryZone = BoxZone:Create(Config.PZLocations.DropLocations[NpcData.CurrentDeliver].coord, Config.PZLocations.DropLocations[NpcData.CurrentDeliver].height, Config.PZLocations.DropLocations[NpcData.CurrentDeliver].width, {
         heading = Config.PZLocations.DropLocations[NpcData.CurrentDeliver].heading,
         debugPoly = false,
         minZ = Config.PZLocations.DropLocations[NpcData.CurrentDeliver].minZ,
         maxZ = Config.PZLocations.DropLocations[NpcData.CurrentDeliver].maxZ,
     })
 
-    delieveryZone:onPlayerInOut(function(isPlayerInside)
+    deliveryZone:onPlayerInOut(function(isPlayerInside)
         if isPlayerInside then
             if whitelistedVehicle() and not isInsideDropZone and NpcData.NpcTaken then
                 isInsideDropZone = true
@@ -705,7 +743,7 @@ function callNpcPoly()
             if isInsidePickupZone then
                 if IsControlJustPressed(0, 38) then
                     exports['qb-core']:KeyPressed()
-                    local veh = GetVehiclePedIsIn(ped, 0)
+                    local veh = GetVehiclePedIsIn(ped, false)
                     local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
 
                     for i = maxSeats - 1, 0, -1 do
@@ -729,6 +767,7 @@ function callNpcPoly()
                     ClearPedTasksImmediately(NpcData.Npc)
                     FreezeEntityPosition(NpcData.Npc, false)
                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                    listenForVehicleDamage()
                     resetMeter()
                     QBCore.Functions.Notify(Lang:t('info.go_to_location'))
                     if NpcData.NpcBlip ~= nil then
@@ -761,7 +800,8 @@ function dropNpcPoly()
                     SendNUIMessage({
                         action = 'toggleMeter'
                     })
-                    TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
+                    TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare, NpcData.CrashCount == 0)
+                    PlayPedAmbientSpeechNative(NpcData.Npc, NpcData.CrashCount == 0 and Config.Advanced.Speech.Happy or Config.Advanced.Speech.Grateful, 'SPEECH_PARAMS_ALLOW_REPEAT')
                     meterActive = false
                     SendNUIMessage({
                         action = 'resetMeter'
@@ -777,7 +817,7 @@ function dropNpcPoly()
                     end
                     RemovePed(NpcData.Npc)
                     ResetNpcTask()
-                    delieveryZone:destroy()
+                    deliveryZone:destroy()
                     break
                 end
             end
