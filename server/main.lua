@@ -25,16 +25,16 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(payment, hasReceivedBonus)
 
                 payment += tipAmount
                 if hasReceivedBonus then
-                    TriggerClientEvent('QBCore:Notify', src, string.format('You have been tipped $%d for your safe driving', tipAmount), 'primary', 5000)
+                    TriggerClientEvent('QBCore:Notify', src, string.format(Lang:t('info.tip_received'), tipAmount), 'primary', 5000)
                 else
-                    TriggerClientEvent('QBCore:Notify', src, 'Try not to crash the cab if you want to receive any tips in the future', 'primary', 5000)
+                    TriggerClientEvent('QBCore:Notify', src, Lang:t('info.tip_not_received'), 'primary', 5000)
                 end
             end
 
             if Config.Management then
                 exports['qb-banking']:AddMoney('taxi', payment, 'Customer payment')
             else
-                Player.Functions.AddMoney('cash', payment, 'taxi payout')
+                Player.Functions.AddMoney('cash', payment, 'Taxi payout')
             end
 
             local chance = math.random(1, 100)

@@ -298,7 +298,7 @@ local function listenForVehicleDamage()
                     local currentHealth = GetEntityHealth(vehicle)
                     if currentHealth < Config.Advanced.MinCabHealth then
                         TriggerEvent('qb-taxi:client:CancelTaxiNpc')
-                        return QBCore.Functions.Notify('Your taxi needs to be repaired before resuming work!', 'error')
+                        return QBCore.Functions.Notify(Lang:t('error.broken_taxi'), 'error')
                     end
 
                     if lastVehicleHealth and currentHealth < lastVehicleHealth then
@@ -313,11 +313,11 @@ local function listenForVehicleDamage()
                         NpcData.CrashCount += 1
                         if NpcData.CrashCount >= Config.Advanced.MaxCrashesAllowed then
                             TriggerEvent('qb-taxi:client:CancelTaxiNpc')
-                            return QBCore.Functions.Notify('You have crashed too many times, the ride is cancelled!', 'error')
+                            return QBCore.Functions.Notify(Lang:t('error.ride_canceled'), 'error')
                         end
 
                         local count = Config.Advanced.MaxCrashesAllowed - NpcData.CrashCount
-                        QBCore.Functions.Notify(string.format('If you crash %d more %s the customer will stop the ride and you will not be paid!', count, count == 1 and 'time' or 'times'), 'error')
+                        QBCore.Functions.Notify(string.format(Lang:t('error.crash_warning'), count, count == 1 and Lang:t('error.time') or Lang:t('error.times')), 'error')
                     end
                     lastVehicleHealth = currentHealth
                 else
