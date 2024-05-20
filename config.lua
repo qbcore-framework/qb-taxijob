@@ -34,7 +34,9 @@ Config = {
         Speech = {
             Enabled = true,
             Angry = 'GENERIC_INSULT_HIGH',
-            Scared = 'GENERIC_FRIGHTENED_HIGH'
+            Scared = 'GENERIC_FRIGHTENED_HIGH',
+            Grateful = 'GENERIC_THANKS',
+            Happy = 'GENERIC_HAPPY'
         },
         MinCabHealth = 750,     -- min vehicle health before mission stops
         MaxCrashesAllowed = 5,  -- amount of crashes before mission stops

@@ -178,6 +178,7 @@ local function GetDeliveryLocation()
                                 action = 'toggleMeter'
                             })
                             TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare, NpcData.CrashCount == 0)
+                            PlayPedAmbientSpeechNative(NpcData.Npc, NpcData.CrashCount == 0 and Config.Advanced.Speech.Happy or Config.Advanced.Speech.Grateful, 'SPEECH_PARAMS_ALLOW_REPEAT')
                             meterActive = false
                             SendNUIMessage({
                                 action = 'resetMeter'
@@ -800,6 +801,7 @@ function dropNpcPoly()
                         action = 'toggleMeter'
                     })
                     TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare, NpcData.CrashCount == 0)
+                    PlayPedAmbientSpeechNative(NpcData.Npc, NpcData.CrashCount == 0 and Config.Advanced.Speech.Happy or Config.Advanced.Speech.Grateful, 'SPEECH_PARAMS_ALLOW_REPEAT')
                     meterActive = false
                     SendNUIMessage({
                         action = 'resetMeter'
