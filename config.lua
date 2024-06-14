@@ -26,6 +26,8 @@ Config = {
 
     Duty = vector3(894.88, -179.22, 74.7),
 
+    Rewards = '',
+    
     Advanced = {
         Bonus = {
             Enabled = true,
