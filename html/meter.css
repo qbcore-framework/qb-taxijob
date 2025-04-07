@@ -1,20 +1,19 @@
-@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap");
 
 :root {
     --meter-size-width: 45vh;
     --meter-size-height: 22.3vh;
 }
 
-.container {
-    height: 100vh;
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Exo 2", sans-serif;
 }
 
-#g5-meter {
-    position: absolute;
-    bottom: 5vh;
-    right: 5vh;
-    width: var(--meter-size-width);
-    height: var(--meter-size-height);
+.container {
+    height: 100vh;
+    display: none;
 }
 
 .g5-meter {
@@ -25,97 +24,94 @@
     height: var(--meter-size-height);
 }
 
+.panel {
+    width: 45vh;
+    height: 22.3vh;
+    background: #1c1b1f;
+    border-radius: 10px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+    box-sizing: border-box;
+}
+
+.box {
+    background: #36343b;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0.5vh;
+}
+
+.box span {
+    position: static;
+    font-size: 1.1vh;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.3;
+}
+
+.bottom-row {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+#total-price,
+#total-price-per-100m,
+#total-distance {
+    font-weight: bold;
+    font-size: 4.1vh;
+    letter-spacing: 0.1vh;
+}
+
 #total-price {
     color: rgb(64, 160, 64);
-    font-family: "Lato";
-    font-weight: bold;
-    letter-spacing: 0.1vh;
-    font-size: 4.1vh;
-    top: 4vh;
-    right: 8vh;
-    float: right;
-    position: absolute;
-}
-
-#total-price-label {
-    color: rgba(255, 255, 255, 0.75);
-    font-family: "Lato";
-    font-weight: lighter;
-    font-size: 1.1vh;
-    letter-spacing: 0.1vh;
-    top: 9vh;
-    right: 8vh;
-    float: right;
-    position: absolute;
-}
-
-#total-distance {
-    color: rgb(255, 153, 57);
-    font-family: "Lato";
-    font-weight: bold;
-    letter-spacing: 0.1vh;
-    font-size: 4.1vh;
-    top: 11.5vh;
-    right: 8vh;
-    float: right;
-    position: absolute;
-}
-
-#total-distance-label {
-    color: rgba(255, 255, 255, 0.75);
-    font-family: "Lato";
-    font-weight: lighter;
-    font-size: 1.1vh;
-    letter-spacing: 0.1vh;
-    top: 16.5vh;
-    right: 8vh;
-    float: right;
-    position: absolute;
 }
 
 #total-price-per-100m {
     color: rgb(56, 143, 243);
-    font-family: "Lato";
-    font-weight: bold;
-    letter-spacing: 0.1vh;
-    font-size: 4.1vh;
-    top: 11.5vh;
-    right: 25vh;
-    float: right;
-    position: absolute;
 }
 
-#total-price-per-100m-label {
-    color: rgba(255, 255, 255, 0.75);
-    font-family: "Lato";
-    font-weight: lighter;
+#total-distance {
+    color: rgb(255, 153, 57);
+}
+
+#total-price-label,
+#total-price-per-100m-label,
+#total-distance-label {
     font-size: 1.1vh;
     letter-spacing: 0.1vh;
-    top: 16.5vh;
-    right: 25vh;
-    float: right;
-    position: absolute;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: lighter;
+    margin-top: 0.3vh;
 }
 
 .toggle-meter-btn {
-    position: absolute;
-    height: 6vh;
-    width: 6.7vh;
+    width: 100%;
+    height: 100%;
     background: rgba(46, 46, 46, 0.534);
-    top: 4.15vh;
-    left: 3.8vh;
-    border-radius: 0.8vh;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: background 0.1s linear;
+    cursor: pointer;
 }
 
-.toggle-meter-btn > p {
-    text-align: center;
-    line-height: 5.8vh;
-    font-size: 1.2vh;
+.toggle-meter-btn p {
+    font-size: 1.4vh;
     color: rgb(231, 30, 37);
     letter-spacing: 0.1vh;
-    font-family: sans-serif;
     font-weight: bold;
+    font-family: "Exo 2", sans-serif;
 }
 
 .toggle-meter-btn:hover {
